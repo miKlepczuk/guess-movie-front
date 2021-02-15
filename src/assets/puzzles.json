@@ -1,20 +1,14 @@
-{
-  "puzzles": [
-    {
-      "id": 0,
-      "sentence": "Gra o tron",
-      "image": "http://localhost/guess-what/images/questions/0.png"
-    },
-    {
-      "id": 1,
-      "sentence": "Drzewo życia",
-      "image": "http://localhost/guess-what/images/questions/1.png"
-    },
-    {
-      "id": 2,
-      "sentence": "Brudna forsa",
-      "image": "http://localhost/guess-what/images/questions/2.png"
-
-    }
-  ]
-}
+[
+  {
+    "sentence": "Gra o tron",
+    "image": "http://localhost/guess-what/images/questions/0.png"
+  },
+  {
+    "sentence": "Drzewo życia",
+    "image": "http://localhost/guess-what/images/questions/1.png"
+  },
+  {
+    "sentence": "Brudna forsa",
+    "image": "http://localhost/guess-what/images/questions/2.png"
+  }
+]
