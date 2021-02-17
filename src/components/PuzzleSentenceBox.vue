@@ -2,7 +2,12 @@
   <div class="puzzle-sentence-box">
     <div class="sentence-mask">
       <div v-for="(letter, index) in sentenceMask" :key="index">
-        <span class="sentence-mask__single-sign" :index="index">
+        <span
+          class="sentence-mask__single-sign"
+          :index="index"
+          :class="letter == ' ' ? 'sign-is-space' : 'sign-not-space'"
+          @click="removeLetterFromMask(index)"
+        >
           {{ letter }}
         </span>
       </div>
@@ -14,7 +19,7 @@
           class="letters__single-letter"
           :index="index"
           v-show="visibleLetters[index]"
-          @click="chooseLetter(index, letter)"
+          @click="chooseLetterToMask(index, letter)"
         >
           {{ letter }}
         </span>
@@ -29,6 +34,7 @@ export default {
   data() {
     return {
       sentenceMask: [],
+      indexesOfScratteredLettersInMask: [],
       visibleLetters: [],
       sentenceLetters: [],
       sentenceScratteredLetters: [],
@@ -73,13 +79,18 @@ export default {
       }
     },
 
-    chooseLetter(index, letter) {
+    chooseLetterToMask(index, letter) {
       var firstFreePosition = this.sentenceMask.indexOf("_");
-      console.log(firstFreePosition);
       if (firstFreePosition >= 0) {
         this.sentenceMask[firstFreePosition] = letter;
+        this.indexesOfScratteredLettersInMask[firstFreePosition] = index;
         this.visibleLetters[index] = false;
       }
+    },
+
+    removeLetterFromMask(index) {
+      this.sentenceMask[index] = "_";
+      this.visibleLetters[this.indexesOfScratteredLettersInMask[index]] = true;
     },
   },
   mounted() {
@@ -125,5 +136,9 @@ export default {
   font-size: 50px;
   width: 30px;
   margin: 0 5px;
+}
+
+.sign-not-space {
+  cursor: pointer;
 }
 </style>
