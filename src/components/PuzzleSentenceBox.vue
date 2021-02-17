@@ -2,7 +2,7 @@
   <div class="puzzle-sentence-box">
     <div class="sentence-mask">
       <div v-for="(letter, index) in sentenceMask" :key="index">
-        <span class="sentence-mask__single-letter" :index="index">
+        <span class="sentence-mask__single-sign" :index="index">
           {{ letter }}
         </span>
       </div>
@@ -10,7 +10,12 @@
 
     <div class="letters">
       <div v-for="(letter, index) in sentenceScratteredLetters" :key="index">
-        <span class="letters__single-letter" :index="index">
+        <span
+          class="letters__single-letter"
+          :index="index"
+          v-show="visibleLetters[index]"
+          @click="chooseLetter(index, letter)"
+        >
           {{ letter }}
         </span>
       </div>
@@ -24,6 +29,8 @@ export default {
   data() {
     return {
       sentenceMask: [],
+      visibleLetters: [],
+      sentenceLetters: [],
       sentenceScratteredLetters: [],
     };
   },
@@ -48,10 +55,7 @@ export default {
       return (string.slice(0, index) + string.slice(index + 1)).split("");
     },
 
-    scatterLetters() {
-      var splitedSentence = this.convertSentenceAsSplitedArray(
-        this.$store.getters.currentPuzzleSentence
-      );
+    scatterLetters(splitedSentence) {
       var sentenceLength = splitedSentence.length;
       var sentenceLengthTemp = sentenceLength;
 
@@ -65,12 +69,25 @@ export default {
           randomPosition
         );
         sentenceLengthTemp = splitedSentence.length;
+        this.visibleLetters[i] = true;
+      }
+    },
+
+    chooseLetter(index, letter) {
+      var firstFreePosition = this.sentenceMask.indexOf("_");
+      console.log(firstFreePosition);
+      if (firstFreePosition >= 0) {
+        this.sentenceMask[firstFreePosition] = letter;
+        this.visibleLetters[index] = false;
       }
     },
   },
   mounted() {
     this.createSentenceMask();
-    this.scatterLetters();
+    this.sentenceLetters = this.convertSentenceAsSplitedArray(
+      this.$store.getters.currentPuzzleSentence
+    );
+    this.scatterLetters(this.sentenceLetters);
   },
 };
 </script>
@@ -80,6 +97,7 @@ export default {
   margin-top: 50px;
   font-size: 50px;
   letter-spacing: 5px;
+  text-transform: capitalize;
 }
 .letters,
 .sentence-mask {
@@ -102,7 +120,7 @@ export default {
   cursor: pointer;
 }
 
-.sentence-mask__single-letter {
+.sentence-mask__single-sign {
   display: inline-block;
   font-size: 50px;
   width: 30px;
