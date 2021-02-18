@@ -26,7 +26,12 @@
         </span>
       </div>
     </div>
-    <button v-show="isCorrectAnswer">Dalej>></button>
+    <div v-if="isEndOfGame">Gratulacje! Koniec gry.</div>
+    <div v-else>
+      <button v-show="isCorrectAnswer" @click="goToNextSentence">
+        Dalej>>
+      </button>
+    </div>
   </div>
 </template>
 <script>
@@ -101,13 +106,22 @@ export default {
     addPointsForCorrectAnswer() {
       this.$store.commit("addPointsForCorrectAnswer");
     },
+    goToNextSentence() {
+      this.$store.commit("incrementQuestion");
+      this.prepareBoardForSentence();
+    },
+    prepareBoardForSentence() {
+      if (this.$store.getters.isAllowedToLoadNextSentence == true) {
+        this.createSentenceMask();
+        this.sentenceLetters = this.convertSentenceAsSplitedArray(
+          this.$store.getters.currentPuzzleSentence
+        );
+        this.scatterLetters(this.sentenceLetters);
+      }
+    },
   },
   mounted() {
-    this.createSentenceMask();
-    this.sentenceLetters = this.convertSentenceAsSplitedArray(
-      this.$store.getters.currentPuzzleSentence
-    );
-    this.scatterLetters(this.sentenceLetters);
+    this.prepareBoardForSentence();
   },
   computed: {
     isCorrectAnswer() {
@@ -118,6 +132,15 @@ export default {
         this.addPointsForCorrectAnswer();
         return true;
       } else return false;
+    },
+    isEndOfGame() {
+      if (
+        this.isCorrectAnswer &&
+        this.$store.getters.isThisTheLastSentence == true
+      ) {
+        return true;
+      }
+      return false;
     },
   },
 };
