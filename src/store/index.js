@@ -30,6 +30,7 @@ export default createStore({
 
   mutations: {
     increment: state => state.currentPuzzleId++,
+    addPointsForCorrectAnswer: state => state.userScore=state.userScore+10,
   },
   actions: {
   },

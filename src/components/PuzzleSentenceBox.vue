@@ -2,14 +2,15 @@
   <div class="puzzle-sentence-box">
     <div class="sentence-mask">
       <div v-for="(letter, index) in sentenceMask" :key="index">
-        <span
+        <p
           class="sentence-mask__single-sign"
           :index="index"
           :class="letter == ' ' ? 'sign-is-space' : 'sign-not-space'"
+          :style="isCorrectAnswer == false ? 'cursor: pointer' : ''"
           @click="removeLetterFromMask(index)"
         >
-          {{ letter }}
-        </span>
+          <span v-if="letter !== '_'"> {{ letter }} </span>
+        </p>
       </div>
     </div>
 
@@ -25,6 +26,7 @@
         </span>
       </div>
     </div>
+    <button v-show="isCorrectAnswer">Dalej>></button>
   </div>
 </template>
 <script>
@@ -89,8 +91,15 @@ export default {
     },
 
     removeLetterFromMask(index) {
-      this.sentenceMask[index] = "_";
-      this.visibleLetters[this.indexesOfScratteredLettersInMask[index]] = true;
+      if (this.isCorrectAnswer == false) {
+        this.sentenceMask[index] = "_";
+        this.visibleLetters[
+          this.indexesOfScratteredLettersInMask[index]
+        ] = true;
+      }
+    },
+    addPointsForCorrectAnswer() {
+      this.$store.commit("addPointsForCorrectAnswer");
     },
   },
   mounted() {
@@ -99,6 +108,17 @@ export default {
       this.$store.getters.currentPuzzleSentence
     );
     this.scatterLetters(this.sentenceLetters);
+  },
+  computed: {
+    isCorrectAnswer() {
+      if (
+        this.sentenceMask.join("").toString() ==
+        this.$store.getters.currentPuzzleSentence.toLowerCase()
+      ) {
+        this.addPointsForCorrectAnswer();
+        return true;
+      } else return false;
+    },
   },
 };
 </script>
@@ -132,13 +152,15 @@ export default {
 }
 
 .sentence-mask__single-sign {
-  display: inline-block;
-  font-size: 50px;
-  width: 30px;
+  font-size: 35px;
+  line-height: 35px;
+  width: 37px;
+  height: 37px;
   margin: 0 5px;
+  text-align: center;
 }
 
 .sign-not-space {
-  cursor: pointer;
+  border-bottom: 2px solid gray;
 }
 </style>
