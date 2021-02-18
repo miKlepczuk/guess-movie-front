@@ -45,7 +45,7 @@ export default {
   methods: {
     createSentenceMask() {
       String.prototype.cleanup = function () {
-        return this.toLowerCase().replace(/[a-zA-Z]/g, "_");
+        return this.toLowerCase().replace(/[a-zA-ZżźćńółęąśŻŹĆĄŚĘŁÓŃ]/g, "_");
       };
       this.sentenceMask = this.$store.getters.currentPuzzleSentence
         .cleanup()
