@@ -40,7 +40,7 @@ export default createStore({
   },
 
   mutations: {
-    incrementQuestion(state) {
+    incrementCurrentSentenceId(state) {
       if (this.getters.isThisTheLastSentence == false) {
         state.currentPuzzleId++
       }

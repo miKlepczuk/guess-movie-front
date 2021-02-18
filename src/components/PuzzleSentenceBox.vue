@@ -5,9 +5,13 @@
         <p
           class="sentence-mask__single-sign"
           :index="index"
-          :class="letter == ' ' ? 'sign-is-space' : 'sign-not-space'"
-          :style="isCorrectAnswer == false ? 'cursor: pointer' : ''"
-          @click="removeLetterFromMask(index)"
+          :class="letter == ' ' ? 'sign-space' : ''"
+          :style="
+            isCorrectAnswer == false && letter !== ' ' && letter !== '_'
+              ? 'cursor: pointer'
+              : 'cursor: auto'
+          "
+          @click="removeLetterFromMask(index, letter)"
         >
           <span v-if="letter !== '_'"> {{ letter }} </span>
         </p>
@@ -95,19 +99,20 @@ export default {
       }
     },
 
-    removeLetterFromMask(index) {
-      if (this.isCorrectAnswer == false) {
+    removeLetterFromMask(index, letter) {
+      if (this.isCorrectAnswer == false && letter !== " ") {
         this.sentenceMask[index] = "_";
         this.visibleLetters[
           this.indexesOfScratteredLettersInMask[index]
         ] = true;
+        this.indexesOfScratteredLettersInMask[index] = null;
       }
     },
     addPointsForCorrectAnswer() {
       this.$store.commit("addPointsForCorrectAnswer");
     },
     goToNextSentence() {
-      this.$store.commit("incrementQuestion");
+      this.$store.commit("incrementCurrentSentenceId");
       this.prepareBoardForSentence();
     },
     prepareBoardForSentence() {
@@ -181,9 +186,9 @@ export default {
   height: 37px;
   margin: 0 5px;
   text-align: center;
-}
-
-.sign-not-space {
   border-bottom: 2px solid gray;
+}
+.sign-space {
+  border-bottom: 2px solid transparent;
 }
 </style>
