@@ -5,7 +5,10 @@
         <p
           class="sentence-mask__single-sign"
           :index="index"
-          :class="letter == ' ' ? 'sign-space' : ''"
+          :class="{
+            'sign-space': letter == ' ',
+            'hinted-letter': hintedPositions.includes(index),
+          }"
           :style="
             isCorrectAnswer == false && letter !== ' ' && letter !== '_'
               ? 'cursor: pointer'
@@ -30,6 +33,9 @@
         </span>
       </div>
     </div>
+    <div class="hint">
+      <img class="hint__icon" src="../assets/hint.svg" @click="giveHint()" />
+    </div>
     <div v-if="isEndOfGame">Gratulacje! Koniec gry.</div>
     <div v-else>
       <button v-show="isCorrectAnswer" @click="goToNextSentence">
@@ -49,6 +55,7 @@ export default {
       visibleLetters: [],
       sentenceLetters: [],
       sentenceScratteredLetters: [],
+      hintedPositions: [],
     };
   },
   methods: {
@@ -63,8 +70,7 @@ export default {
 
     convertSentenceAsSplitedArray(sentence) {
       var sentenceLowerCase = sentence.toLowerCase();
-      var sentenceWithoutSpaces = sentenceLowerCase.replace(/ /g, " ");
-      return sentenceWithoutSpaces.split("");
+      return sentenceLowerCase.split("");
     },
 
     removeLetterByIndex(string, index) {
@@ -76,7 +82,7 @@ export default {
       return Math.floor(Math.random() * (maxNumber - 1 + 1));
     },
     removeSpacesFromArray(sentence) {
-      sentence.join("").replace(/ /g, "").split("");
+      return sentence.join("").replace(/ /g, "").split("");
     },
 
     scatterLetters(sentenceLetters) {
@@ -108,6 +114,12 @@ export default {
     },
 
     assignLetterToMask(sourceIndex, destinationIndex) {
+      console.log(
+        "assignLetterToMask --> sourceIndex: " +
+          sourceIndex +
+          ", destinationIndex:" +
+          destinationIndex
+      );
       this.sentenceMask[destinationIndex] = this.sentenceScratteredLetters[
         sourceIndex
       ];
@@ -133,11 +145,56 @@ export default {
     prepareBoardForSentence() {
       if (this.$store.getters.isAllowedToLoadNextSentence == true) {
         this.indexesOfScratteredLettersInMask = [];
+        this.hintedPositions = [];
         this.createSentenceMask();
         this.sentenceLetters = this.convertSentenceAsSplitedArray(
           this.$store.getters.currentPuzzleSentence
         );
         this.scatterLetters(this.sentenceLetters);
+      }
+    },
+    randomLetterToHint() {
+      var sentenceLength = this.sentenceScratteredLetters.length;
+      var randomPosition = null;
+      do {
+        randomPosition = this.randomizeToNumber(sentenceLength);
+        var letter = this.sentenceScratteredLetters[randomPosition];
+        console.log(
+          "randomLetterToHint --> randomPositionInSentenceScratteredLetters:" +
+            randomPosition +
+            ", letter: ",
+          letter
+        );
+      } while (
+        this.indexesOfScratteredLettersInMask.includes(randomPosition) == true
+      );
+      return randomPosition;
+    },
+    getFirstOccurrenceInSentence(letter) {
+      for (var index = 0; index < this.sentenceMask.length; index++) {
+        if (this.sentenceLetters[index] == letter) {
+          if (this.sentenceMask[index] == "_") {
+            return index;
+          } else {
+            return null;
+          }
+        }
+      }
+    },
+    giveHint() {
+      if (this.isCorrectAnswer == false) {
+        var indexScrattedLetter = this.randomLetterToHint();
+        var letter = this.sentenceScratteredLetters[indexScrattedLetter];
+        var indexInSentence = this.getFirstOccurrenceInSentence(letter);
+
+        if (indexInSentence == null) {
+          // TODO: Add handling when user made a mistake with single letter
+        } else {
+          this.assignLetterToMask(indexScrattedLetter, indexInSentence);
+          this.hintedPositions.push(indexInSentence);
+        }
+      } else {
+        console.log("wskazówka nieaktywna");
       }
     },
   },
@@ -206,5 +263,19 @@ export default {
 }
 .sign-space {
   border-bottom: 2px solid transparent;
+}
+
+.hint {
+  cursor: pointer;
+  display: inline-block;
+  padding: 0 7px;
+}
+.hint__icon {
+  height: 40px;
+  width: auto;
+}
+.hinted-letter {
+  color: green;
+  border-color: transparent;
 }
 </style>
