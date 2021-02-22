@@ -24,7 +24,7 @@
           class="letters__single-letter"
           :index="index"
           v-show="visibleLetters[index]"
-          @click="chooseLetterToMask(index, letter)"
+          @click="chooseLetterToMask(index)"
         >
           {{ letter }}
         </span>
@@ -63,7 +63,7 @@ export default {
 
     convertSentenceAsSplitedArray(sentence) {
       var sentenceLowerCase = sentence.toLowerCase();
-      var sentenceWithoutSpaces = sentenceLowerCase.replace(/ /g, "");
+      var sentenceWithoutSpaces = sentenceLowerCase.replace(/ /g, " ");
       return sentenceWithoutSpaces.split("");
     },
 
@@ -72,33 +72,48 @@ export default {
       return (string.slice(0, index) + string.slice(index + 1)).split("");
     },
 
-    scatterLetters(splitedSentence) {
-      var sentenceLength = splitedSentence.length;
+    randomizeToNumber(maxNumber) {
+      return Math.floor(Math.random() * (maxNumber - 1 + 1));
+    },
+    removeSpacesFromArray(sentence) {
+      sentence.join("").replace(/ /g, "").split("");
+    },
+
+    scatterLetters(sentenceLetters) {
+      var sentenceLength = sentenceLetters.length;
       var sentenceLengthTemp = sentenceLength;
 
       for (var i = 0; i < sentenceLength; i++) {
-        var randomPosition = Math.floor(
-          Math.random() * (sentenceLengthTemp - 1 + 1)
-        );
-        this.sentenceScratteredLetters[i] = splitedSentence[randomPosition];
-        splitedSentence = this.removeLetterByIndex(
-          splitedSentence,
+        var randomPosition = this.randomizeToNumber(sentenceLengthTemp);
+
+        this.sentenceScratteredLetters[i] = sentenceLetters[randomPosition];
+        sentenceLetters = this.removeLetterByIndex(
+          sentenceLetters,
           randomPosition
         );
-        sentenceLengthTemp = splitedSentence.length;
+        sentenceLengthTemp = sentenceLetters.length;
         this.visibleLetters[i] = true;
       }
+
+      this.sentenceScratteredLetters = this.removeSpacesFromArray(
+        this.sentenceScratteredLetters
+      );
     },
 
-    chooseLetterToMask(index, letter) {
+    chooseLetterToMask(index) {
       var firstFreePosition = this.sentenceMask.indexOf("_");
       if (firstFreePosition >= 0) {
-        this.sentenceMask[firstFreePosition] = letter;
-        this.indexesOfScratteredLettersInMask[firstFreePosition] = index;
-        this.visibleLetters[index] = false;
+        this.assignLetterToMask(index, firstFreePosition);
       }
     },
 
+    assignLetterToMask(sourceIndex, destinationIndex) {
+      this.sentenceMask[destinationIndex] = this.sentenceScratteredLetters[
+        sourceIndex
+      ];
+      this.indexesOfScratteredLettersInMask[destinationIndex] = sourceIndex;
+      this.visibleLetters[sourceIndex] = false;
+    },
     removeLetterFromMask(index, letter) {
       if (this.isCorrectAnswer == false && letter !== " ") {
         this.sentenceMask[index] = "_";
@@ -117,6 +132,7 @@ export default {
     },
     prepareBoardForSentence() {
       if (this.$store.getters.isAllowedToLoadNextSentence == true) {
+        this.indexesOfScratteredLettersInMask = [];
         this.createSentenceMask();
         this.sentenceLetters = this.convertSentenceAsSplitedArray(
           this.$store.getters.currentPuzzleSentence
