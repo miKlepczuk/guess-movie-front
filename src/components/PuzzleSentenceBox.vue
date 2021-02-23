@@ -7,7 +7,8 @@
           :index="index"
           :class="{
             'sign-space': letter == ' ',
-            'hinted-letter': hintedPositions.includes(index),
+            'correct-letter':
+              hintedPositions.includes(index) || isCorrectAnswer,
           }"
           :style="
             isCorrectAnswer == false &&
@@ -36,13 +37,21 @@
         </span>
       </div>
     </div>
+
     <div class="hint" v-if="isHintButtonEnabled()">
       <img class="hint__icon" src="../assets/hint.svg" @click="giveHint()" />
     </div>
-    <div v-if="isEndOfGame">Gratulacje! Koniec gry.</div>
+
+    <div v-if="isEndOfGame" class="end-game-information">
+      Gratulacje! Koniec gry.
+    </div>
     <div v-else>
-      <button v-show="isCorrectAnswer" @click="goToNextSentence">
-        Dalej>>
+      <button
+        v-show="isCorrectAnswer"
+        class="button-next-puzzle"
+        @click="goToNextSentence"
+      >
+        Dalej >
       </button>
     </div>
   </div>
@@ -283,17 +292,16 @@ export default {
 
 <style scoped>
 .sentence-mask {
-  margin-top: 50px;
   font-size: 50px;
   letter-spacing: 5px;
   text-transform: capitalize;
+  margin-bottom: 50px;
 }
 .letters,
 .sentence-mask {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 50px;
 }
 .letters__single-letter {
   border: 1px solid black;
@@ -312,9 +320,9 @@ export default {
 .sentence-mask__single-sign {
   font-size: 35px;
   line-height: 35px;
-  width: 37px;
-  height: 37px;
-  margin: 0 5px;
+  width: 35px;
+  height: 35px;
+  margin: 0 3px;
   text-align: center;
   border-bottom: 2px solid gray;
 }
@@ -326,13 +334,33 @@ export default {
   cursor: pointer;
   display: inline-block;
   padding: 0 7px;
+  margin-top: 50px;
 }
 .hint__icon {
   height: 40px;
   width: auto;
 }
-.hinted-letter {
+.correct-letter {
   color: green;
   border-color: transparent;
+}
+
+.end-game-information {
+  font-size: 35px;
+}
+
+.button-next-puzzle,
+.button-next-puzzle:hover,
+.button-next-puzzle:active,
+.button-next-puzzle:focus,
+.button-next-puzzle:focus:active,
+.button-next-puzzle:active:focus {
+  font-size: 30px;
+  text-transform: uppercase;
+  background: white;
+  /* border: 2px solid teal; */
+  cursor: pointer;
+  padding: 8px 20px;
+  color: teal;
 }
 </style>

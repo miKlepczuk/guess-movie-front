@@ -20,6 +20,9 @@ export default {
 
 
 <style scoped>
+.puzzle-picture {
+  margin-bottom: 50px;
+}
 </style>
 
  
