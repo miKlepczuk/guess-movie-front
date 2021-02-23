@@ -10,11 +10,14 @@
             'hinted-letter': hintedPositions.includes(index),
           }"
           :style="
-            isCorrectAnswer == false && letter !== ' ' && letter !== '_'
+            isCorrectAnswer == false &&
+            letter !== ' ' &&
+            letter !== '_' &&
+            !hintedPositions.includes(index)
               ? 'cursor: pointer'
               : 'cursor: auto'
           "
-          @click="removeLetterFromMask(index, letter)"
+          @click="removeLetterFromMask(index)"
         >
           <span v-if="letter !== '_'"> {{ letter }} </span>
         </p>
@@ -33,7 +36,7 @@
         </span>
       </div>
     </div>
-    <div class="hint">
+    <div class="hint" v-show="!isCorrectAnswer">
       <img class="hint__icon" src="../assets/hint.svg" @click="giveHint()" />
     </div>
     <div v-if="isEndOfGame">Gratulacje! Koniec gry.</div>
@@ -114,20 +117,19 @@ export default {
     },
 
     assignLetterToMask(sourceIndex, destinationIndex) {
-      console.log(
-        "assignLetterToMask --> sourceIndex: " +
-          sourceIndex +
-          ", destinationIndex:" +
-          destinationIndex
-      );
       this.sentenceMask[destinationIndex] = this.sentenceScratteredLetters[
         sourceIndex
       ];
       this.indexesOfScratteredLettersInMask[destinationIndex] = sourceIndex;
       this.visibleLetters[sourceIndex] = false;
     },
-    removeLetterFromMask(index, letter) {
-      if (this.isCorrectAnswer == false && letter !== " ") {
+    removeLetterFromMask(index) {
+      var letter = this.sentenceMask[index];
+      if (
+        this.isCorrectAnswer == false &&
+        letter !== " " &&
+        !this.hintedPositions.includes(index)
+      ) {
         this.sentenceMask[index] = "_";
         this.visibleLetters[
           this.indexesOfScratteredLettersInMask[index]
@@ -153,48 +155,94 @@ export default {
         this.scatterLetters(this.sentenceLetters);
       }
     },
-    randomLetterToHint() {
-      var sentenceLength = this.sentenceScratteredLetters.length;
-      var randomPosition = null;
-      do {
-        randomPosition = this.randomizeToNumber(sentenceLength);
-        var letter = this.sentenceScratteredLetters[randomPosition];
-        console.log(
-          "randomLetterToHint --> randomPositionInSentenceScratteredLetters:" +
-            randomPosition +
-            ", letter: ",
-          letter
-        );
-      } while (
-        this.indexesOfScratteredLettersInMask.includes(randomPosition) == true
-      );
-      return randomPosition;
-    },
-    getFirstOccurrenceInSentence(letter) {
-      for (var index = 0; index < this.sentenceMask.length; index++) {
-        if (this.sentenceLetters[index] == letter) {
-          if (this.sentenceMask[index] == "_") {
-            return index;
-          } else {
-            return null;
-          }
+    isMaskComplete() {
+      for (var i = 0; i < this.sentenceMask.length; i++) {
+        if (this.sentenceMask[i] == "_") {
+          return false;
         }
       }
+      return true;
+    },
+    randomLetterInSentenceToHint() {
+      var sentenceLength = this.sentenceLetters.length;
+      var randomPosition = null;
+      var randomLetter = "";
+      var isMaskComplete = this.isMaskComplete();
+
+      // At first, we are randomize position for unfilled gaps in the sentence.
+      if (isMaskComplete == false) {
+        do {
+          randomPosition = this.randomizeToNumber(sentenceLength);
+          randomLetter = this.sentenceLetters[randomPosition];
+          var letterInMask = this.sentenceMask[randomPosition];
+        } while (
+          this.hintedPositions.includes(randomPosition) == true ||
+          randomLetter == " " ||
+          letterInMask !== "_" ||
+          isMaskComplete !== false
+        );
+      }
+      // When all gaps in the sentence are filled, then we can randomize position among occupied positions in the sentence.
+      if (randomPosition == null && isMaskComplete == true) {
+        do {
+          randomPosition = this.randomizeToNumber(sentenceLength);
+          randomLetter = this.sentenceLetters[randomPosition];
+        } while (
+          this.hintedPositions.includes(randomPosition) == true ||
+          randomLetter == " "
+        );
+      }
+      return randomPosition;
+    },
+    getFirstOccurrenceInScrattered(letter) {
+      for (
+        var index = 0;
+        index < this.sentenceScratteredLetters.length;
+        index++
+      ) {
+        if (
+          this.sentenceScratteredLetters[index] == letter &&
+          this.indexesOfScratteredLettersInMask.includes(index) == false
+        ) {
+          return index;
+        }
+      }
+      return null;
     },
     giveHint() {
       if (this.isCorrectAnswer == false) {
-        var indexScrattedLetter = this.randomLetterToHint();
-        var letter = this.sentenceScratteredLetters[indexScrattedLetter];
-        var indexInSentence = this.getFirstOccurrenceInSentence(letter);
+        var randomIndexLetter = this.randomLetterInSentenceToHint();
+        var randomLetter = this.sentenceLetters[randomIndexLetter];
 
-        if (indexInSentence == null) {
-          // TODO: Add handling when user made a mistake with single letter
-        } else {
-          this.assignLetterToMask(indexScrattedLetter, indexInSentence);
-          this.hintedPositions.push(indexInSentence);
+        var indexInScrattered = this.getFirstOccurrenceInScrattered(
+          randomLetter
+        );
+
+        if (indexInScrattered == null) {
+          indexInScrattered = this.getFirstOccurrenceInScrattered(randomLetter);
+          // Randomize letter is used in another position.
+
+          for (var i = 0; i <= this.sentenceMask.length; i++) {
+            if (
+              this.sentenceMask[i] == randomLetter &&
+              this.hintedPositions.includes(i) == false
+            ) {
+              indexInScrattered = this.indexesOfScratteredLettersInMask[i];
+              this.removeLetterFromMask(i);
+              break;
+            }
+          }
         }
+
+        if (this.sentenceMask[randomIndexLetter] !== "_") {
+          // Position of randomize letter is occupied by another letter.
+          this.removeLetterFromMask(randomIndexLetter);
+        }
+
+        this.assignLetterToMask(indexInScrattered, randomIndexLetter);
+        this.hintedPositions.push(randomIndexLetter);
       } else {
-        console.log("wskazówka nieaktywna");
+        console.log("TODO: Hint is not active.");
       }
     },
   },
