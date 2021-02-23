@@ -1,9 +1,12 @@
 import { createStore } from 'vuex'
 import puzzles from "../assets/puzzles.json";
 
+const POINTS_FOR_CORRECT_ANSWER = 10;
+const POINTS_FOR_SINGLE_HINT = 5;
+
 export default createStore({
   state: {
-    userScore: 200,
+    userScore: 20,
     currentPuzzleId: 0,
     puzzles: puzzles,
     puzzlesQuantity: puzzles.length,
@@ -36,6 +39,12 @@ export default createStore({
         return false;
       }
       return true;
+    },
+    isHintAllowed(state) {
+      if (state.userScore >= POINTS_FOR_SINGLE_HINT)
+        return true;
+      else
+        return false;
     }
   },
 
@@ -46,7 +55,8 @@ export default createStore({
       }
 
     },
-    addPointsForCorrectAnswer: state => state.userScore = state.userScore + 10,
+    addPointsForCorrectAnswer: state => state.userScore = state.userScore + POINTS_FOR_CORRECT_ANSWER,
+    substractPointsForHint: state => state.userScore = state.userScore - POINTS_FOR_SINGLE_HINT,
 
   },
   actions: {

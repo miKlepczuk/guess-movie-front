@@ -36,7 +36,7 @@
         </span>
       </div>
     </div>
-    <div class="hint" v-show="!isCorrectAnswer">
+    <div class="hint" v-if="isHintButtonEnabled()">
       <img class="hint__icon" src="../assets/hint.svg" @click="giveHint()" />
     </div>
     <div v-if="isEndOfGame">Gratulacje! Koniec gry.</div>
@@ -146,6 +146,7 @@ export default {
     },
     prepareBoardForSentence() {
       if (this.$store.getters.isAllowedToLoadNextSentence == true) {
+        this.isHintButtonEnabled();
         this.indexesOfScratteredLettersInMask = [];
         this.hintedPositions = [];
         this.createSentenceMask();
@@ -209,8 +210,9 @@ export default {
       }
       return null;
     },
+
     giveHint() {
-      if (this.isCorrectAnswer == false) {
+      if (this.isHintButtonEnabled() == true) {
         var randomIndexLetter = this.randomLetterInSentenceToHint();
         var randomLetter = this.sentenceLetters[randomIndexLetter];
 
@@ -241,9 +243,16 @@ export default {
 
         this.assignLetterToMask(indexInScrattered, randomIndexLetter);
         this.hintedPositions.push(randomIndexLetter);
-      } else {
-        console.log("TODO: Hint is not active.");
+        this.substractPointsForHint();
       }
+    },
+    isHintButtonEnabled() {
+      if (this.isCorrectAnswer == false && this.$store.getters.isHintAllowed)
+        return true;
+      return false;
+    },
+    substractPointsForHint() {
+      this.$store.commit("substractPointsForHint");
     },
   },
   mounted() {
