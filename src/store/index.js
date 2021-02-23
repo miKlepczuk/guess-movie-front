@@ -13,7 +13,7 @@ export default createStore({
       return state.userScore;
     },
     puzzlesQuantity(state) {
-      return state.puzzlesQuantity;
+      return state.puzzles.length;
     },
 
     currentPuzzleId(state) {
