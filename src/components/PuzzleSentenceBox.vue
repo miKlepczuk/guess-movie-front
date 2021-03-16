@@ -39,7 +39,7 @@
     </div>
 
     <div class="hint" v-if="isHintButtonEnabled()">
-      <img class="hint__icon" src="../assets/hint.svg" @click="giveHint()" />
+      <img class="hint__icon" src="../assets/images/hint.svg" @click="giveHint()" />
     </div>
 
     <div v-if="isEndOfGame" class="end-game-information">

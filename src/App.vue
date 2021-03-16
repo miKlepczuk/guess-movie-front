@@ -2,7 +2,6 @@
   <div id="nav">
     <router-link :to="{ name: 'home' }">Home</router-link> |
     <router-link :to="{ name: 'login' }">Login</router-link> |
-    <router-link :to="{ name: 'register' }">Rejestracja</router-link>
   </div>
   <router-view />
 </template>
@@ -33,4 +32,11 @@ img {
   max-width: 100%;
   height: auto;
 }
+
+body {
+  color: #999;
+  background: #f5f5f5;
+  font-family: "Varela Round", sans-serif;
+}
+
 </style>
