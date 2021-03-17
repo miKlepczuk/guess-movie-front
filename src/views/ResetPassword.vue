@@ -1,9 +1,9 @@
 <template>
-  <div class="login">
+  <div class="reset-password">
     <div class="login-form">
       <form action="" method="post">
         <div class="avatar"><img src="../assets/images/avatar.svg" /></div>
-        <h4 class="modal-title">Login to Your Account</h4>
+        <h4 class="modal-title">Reset password</h4>
         <div class="form-group">
           <input
             type="email"
@@ -12,26 +12,15 @@
             required="required"
           />
         </div>
-        <div class="form-group">
-          <input
-            type="password"
-            class="form-control"
-            placeholder="Password"
-            required="required"
-          />
-        </div>
-        <div class="form-group small clearfix">
-         <router-link class="forgot-link" :to="{ name: 'reset-password' }">Forgot Password?</router-link>
-        </div>
         <input
           type="submit"
           class="btn btn-primary btn-block btn-lg"
-          value="Login"
+          value="Reset password"
         />
       </form>
       <div class="text-center small">
-        Don't have an account?
-        <router-link :to="{ name: 'register' }">Sign up</router-link>
+        Already have an account?
+        <router-link :to="{ name: 'login' }">Sign in</router-link>
       </div>
     </div>
   </div>
