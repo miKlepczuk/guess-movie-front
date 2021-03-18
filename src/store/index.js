@@ -1,65 +1,83 @@
 import { createStore } from 'vuex'
 import puzzles from "../assets/puzzles.json";
+import axios from 'axios'
 
 const POINTS_FOR_CORRECT_ANSWER = 10;
 const POINTS_FOR_SINGLE_HINT = 5;
 
 export default createStore({
   state: {
-    userScore: 20,
-    currentPuzzleId: 0,
+    user:{
+      score: 0,
+      email: '',
+      puzzleId: 0
+    },
+
     puzzles: puzzles,
     puzzlesQuantity: puzzles.length,
+
+
   },
+
   getters: {
     userScore(state) {
-      return state.userScore;
+      return state.user.score;
     },
     puzzlesQuantity(state) {
       return state.puzzles.length;
     },
 
-    currentPuzzleId(state) {
-      return state.currentPuzzleId;
+    userPuzzleId(state) {
+      return state.user.puzzleId;
     },
     currentPuzzleImage(state) {
-      return state.puzzles[state.currentPuzzleId].image;
+      return state.puzzles[state.user.puzzleId].image;
     },
     currentPuzzleSentence(state) {
-      return state.puzzles[state.currentPuzzleId].sentence;
+      return state.puzzles[state.user.puzzleId].sentence;
     },
     isThisTheLastSentence(state) {
-      if (state.currentPuzzleId + 1 == state.puzzlesQuantity) {
+      if (state.user.puzzleId + 1 == state.puzzlesQuantity) {
         return true;
       }
       return false;
     },
     isAllowedToLoadNextSentence(state) {
-      if (state.currentPuzzleId + 1 > state.puzzlesQuantity) {
+      if (state.user.puzzleId + 1 > state.puzzlesQuantity) {
         return false;
       }
       return true;
     },
     isHintAllowed(state) {
-      if (state.userScore >= POINTS_FOR_SINGLE_HINT)
+      if (state.user.score >= POINTS_FOR_SINGLE_HINT)
         return true;
       else
         return false;
-    }
+    },
   },
 
   mutations: {
     incrementCurrentSentenceId(state) {
       if (this.getters.isThisTheLastSentence == false) {
-        state.currentPuzzleId++
+        state.user.puzzleId++
       }
-
     },
-    addPointsForCorrectAnswer: state => state.userScore = state.userScore + POINTS_FOR_CORRECT_ANSWER,
-    substractPointsForHint: state => state.userScore = state.userScore - POINTS_FOR_SINGLE_HINT,
+    addPointsForCorrectAnswer: state => state.user.score = state.user.score + POINTS_FOR_CORRECT_ANSWER,
+    substractPointsForHint: state => state.user.score = state.user.score - POINTS_FOR_SINGLE_HINT,
+
+    setUser(state, user) {
+      state.user.score = user.score;
+      state.user.email = user.email;
+      state.user.puzzleId = user.puzzleId;
+    },
 
   },
   actions: {
+    async LogIn({ commit }, user) {
+      let response = await axios.get("login_check", { params: user });
+      localStorage.setItem("token", response.data.user.token);
+      commit('setUser', response.data.user)
+    },
   },
   modules: {
   }

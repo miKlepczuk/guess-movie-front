@@ -1,7 +1,7 @@
 <template>
   <div class="puzzle-indicator">
     <h3>
-      <span>{{ puzzleId + 1 }}</span>
+      <span>{{ userPuzzleId + 1 }}</span>
       /
       <span>{{ puzzlesQuantity }}</span>
     </h3>
@@ -17,8 +17,8 @@ export default {
   setup() {
     const store = useStore();
     const puzzlesQuantity = computed(() => store.getters.puzzlesQuantity);
-    const puzzleId = computed(() => store.getters.currentPuzzleId);
-    return { puzzlesQuantity, puzzleId };
+    const userPuzzleId = computed(() => store.getters.userPuzzleId);
+    return { puzzlesQuantity, userPuzzleId };
   },
 };
 </script>
