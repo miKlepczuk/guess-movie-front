@@ -1,23 +1,21 @@
 <template>
   <div class="register">
     <div class="login-form">
-      <form action="" method="post">
+      <form @submit.prevent="submit">
         <div class="avatar"><img src="../assets/images/avatar.svg" /></div>
         <h4 class="modal-title">Sign up</h4>
-        <div class="form-group">
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Username"
-            required="required"
-          />
+
+        <div class="alert alert-error" v-if="isError">
+          {{ errorMessage }}
         </div>
+
         <div class="form-group">
           <input
             type="email"
             class="form-control"
             placeholder="Email"
             required="required"
+            v-model="form.email"
           />
         </div>
         <div class="form-group">
@@ -26,14 +24,17 @@
             class="form-control"
             placeholder="Password"
             required="required"
+            v-model="form.password"
           />
         </div>
         <div class="form-group">
           <input
-            type="password_confirm"
+            type="password"
             class="form-control"
             placeholder="Confirm password"
             required="required"
+            v-model="form.confirmPassword"
+            @change="isValidatePasswords()"
           />
         </div>
 
@@ -41,6 +42,7 @@
           type="submit"
           class="btn btn-primary btn-block btn-lg"
           value="Sign up"
+          :disabled="isError && isSubmited==false"
         />
       </form>
       <div class="text-center small">
@@ -52,6 +54,50 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+import axios from "axios";
+export default {
+  name: "Register",
+  data() {
+    return {
+      form: {
+        email: "",
+        password: "",
+        confirmPassword: "",
+      },
+      errorMessage: "",
+      isError: false,
+      isSubmited: false
+    };
+  },
+
+  methods: {
+    ...mapActions(["Register"]),
+    async submit() {
+      if (this.isError == false) {
+        const params = new URLSearchParams(this.form).toString();
+        try {
+          this.isError = false;
+          await axios.post("register?" + params, this.form);
+          alert("Account created!"); // TODO
+        } catch (error) {
+          this.isError = true;
+          this.isSubmited = true;
+          this.errorMessage = error.response.data.message;
+        }
+      }
+    },
+    isValidatePasswords() {
+      if (this.form.password != this.form.confirmPassword) {
+        this.errorMessage = "The password confirmation does not match.";
+        this.isError = true;
+      } else {
+        this.errorMessage = "";
+        this.isError = false;
+      }
+    },
+  },
+};
 </script>
 
 <style scoped>

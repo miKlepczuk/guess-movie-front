@@ -66,9 +66,7 @@ export default {
         await this.LogIn(user);
         this.$router.push({ name: "home" });
       } catch (error) {
-        console.log(error);
-        this.errorMessage =
-          "The username or password did not match. Please try again.";
+        this.errorMessage = error.response.data.message;
       }
     },
   },
