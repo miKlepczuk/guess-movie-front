@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import axios from 'axios'
+import createPersistedState from "vuex-persistedstate";
 
 const POINTS_FOR_CORRECT_ANSWER = 10;
 const POINTS_FOR_SINGLE_HINT = 5;
@@ -116,5 +117,6 @@ export default createStore({
 
   },
   modules: {
-  }
+  },
+  plugins: [createPersistedState()],
 })
