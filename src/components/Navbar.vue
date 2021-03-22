@@ -7,7 +7,6 @@
         <router-link
           :to="{ name: 'home' }"
           class="navbar-brand d-inline-block align-middle"
-          href="#"
         >
           <img
             src="../assets/images/head.svg"
@@ -79,9 +78,9 @@ export default {
     ...mapGetters({ userEmail: "userEmail" }),
   },
   methods: {
-    ...mapActions(["LogOut"]),
+    ...mapActions(["logOut"]),
     logout() {
-      this.LogOut();
+      this.logOut();
     },
   },
 };

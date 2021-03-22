@@ -90,18 +90,18 @@ export default createStore({
 
   },
   actions: {
-    async LogIn({ commit }, user) {
+    async logIn({ commit }, user) {
       let response = await axios.get("login_check", { params: user });
       localStorage.setItem("token", response.data.user.token);
       commit('setUser', response.data.user);
     },
-    async Register({ commit }, form) {
+    async register({ commit }, form) {
       const params = new URLSearchParams(form).toString();
       let response = await axios.post("register?" + params, form);
       localStorage.setItem("token", response.data.user.token);
       commit('setUser', response.data.user);
     },
-    async GetPuzzles({ commit }) {
+    async getPuzzles({ commit }) {
       let response = await axios.get("puzzles", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
@@ -109,7 +109,7 @@ export default createStore({
       })
       commit('setPuzzles', response.data)
     },
-    LogOut({ commit }) {
+    logOut({ commit }) {
       localStorage.removeItem("token");
       commit('clearUser');
     },

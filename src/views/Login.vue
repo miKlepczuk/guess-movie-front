@@ -59,11 +59,11 @@ export default {
   },
 
   methods: {
-    ...mapActions(["LogIn"]),
+    ...mapActions(["logIn"]),
     async submit() {
       let user = { email: this.form.email, password: this.form.password };
       try {
-        await this.LogIn(user);
+        await this.logIn(user);
         this.$router.push({ name: "home" });
       } catch (error) {
         this.errorMessage = error.response.data.message;

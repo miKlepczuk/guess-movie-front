@@ -17,7 +17,7 @@ export default {
 
   created: function () {
     if (this.isAuthorized == true) {
-      this.GetPuzzles();
+      this.getPuzzles();
     }
   },
   computed: {
@@ -25,10 +25,10 @@ export default {
   },
 
   methods: {
-    ...mapActions(["GetPuzzles"]),
+    ...mapActions(["getPuzzles"]),
     submit() {
       try {
-        this.GetPuzzles();
+        this.getPuzzles();
       } catch (error) {
         throw "Sorry you can't get puzzles now!";
       }

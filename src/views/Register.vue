@@ -72,11 +72,11 @@ export default {
   },
 
   methods: {
-    ...mapActions(["Register"]),
+    ...mapActions(["register"]),
     async submit() {
       try {
         this.isError = false;
-        await this.Register(this.form);
+        await this.register(this.form);
         this.$router.push({ name: "home" });
       } catch (error) {
         this.isError = true;
