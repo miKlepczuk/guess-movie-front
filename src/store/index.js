@@ -88,6 +88,12 @@ export default createStore({
       localStorage.setItem("token", response.data.user.token);
       commit('setUser', response.data.user);
     },
+    async Register({ commit }, form) {
+      const params = new URLSearchParams(form).toString();
+      let response = await axios.post("register?" + params, form);
+      localStorage.setItem("token", response.data.user.token);
+      commit('setUser', response.data.user);
+    },
     async GetPuzzles({ commit }) {
       let response = await axios.get("puzzles", {
         headers: {

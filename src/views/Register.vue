@@ -42,7 +42,7 @@
           type="submit"
           class="btn btn-primary btn-block btn-lg"
           value="Sign up"
-          :disabled="isError && isSubmited==false"
+          :disabled="isError && isSubmited == false"
         />
       </form>
       <div class="text-center small">
@@ -55,7 +55,7 @@
 
 <script>
 import { mapActions } from "vuex";
-import axios from "axios";
+
 export default {
   name: "Register",
   data() {
@@ -67,29 +67,26 @@ export default {
       },
       errorMessage: "",
       isError: false,
-      isSubmited: false
+      isSubmited: false,
     };
   },
 
   methods: {
     ...mapActions(["Register"]),
     async submit() {
-      if (this.isError == false) {
-        const params = new URLSearchParams(this.form).toString();
-        try {
-          this.isError = false;
-          await axios.post("register?" + params, this.form);
-          alert("Account created!"); // TODO
-        } catch (error) {
-          this.isError = true;
-          this.isSubmited = true;
-          this.errorMessage = error.response.data.message;
-        }
+      try {
+        this.isError = false;
+        await this.Register(this.form);
+        this.$router.push({ name: "home" });
+      } catch (error) {
+        this.isError = true;
+        this.isSubmited = true;
+        this.errorMessage = error.response.data.message;
       }
     },
     isValidatePasswords() {
       if (this.form.password != this.form.confirmPassword) {
-        this.errorMessage = "The password confirmation does not match.";
+        this.errorMessage = "The password confirmation does not match";
         this.isError = true;
       } else {
         this.errorMessage = "";
