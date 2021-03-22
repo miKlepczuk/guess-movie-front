@@ -1,6 +1,6 @@
 <template>
-  <div class="home" >
-    <GameBoard v-if="isAuthorized"/>
+  <div class="home">
+    <GameBoard v-if="isAuthorized" />
     <div v-else>You must be logged in.</div>
   </div>
 </template>
@@ -16,7 +16,9 @@ export default {
   },
 
   created: function () {
+    if (this.isAuthorized == true) {
       this.GetPuzzles();
+    }
   },
   computed: {
     ...mapGetters({ isAuthorized: "isAuthorized" }),
