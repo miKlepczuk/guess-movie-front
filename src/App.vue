@@ -1,10 +1,24 @@
 <template>
-  <div id="nav">
-    <router-link :to="{ name: 'home' }">Home</router-link> |
-    <router-link :to="{ name: 'login' }">Login</router-link> |
+  <div>
+    <Navbar />
+
+    <div id="app">
+      <router-view />
+    </div>
+    
   </div>
-  <router-view />
 </template>
+
+<script>
+import Navbar from "@/components/Navbar.vue";
+
+export default {
+  name: "App",
+  components: {
+    Navbar,
+  },
+};
+</script>
 
 <style>
 #app {
@@ -13,24 +27,7 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-
-img {
-  max-width: 100%;
-  height: auto;
+  margin-top: 100px;
 }
 
 body {
@@ -39,4 +36,45 @@ body {
   font-family: "Varela Round", sans-serif;
 }
 
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.btn:focus,
+a:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.btn-lg {
+  min-height: 40px;
+}
+
+.btn {
+  border-radius: 2px;
+  transition: all 0.5s;
+}
+
+.btn,
+.btn:active {
+  background: #4aba70 !important;
+  border: none !important;
+  line-height: normal !important;
+}
+
+.btn:hover,
+.btn:focus {
+  background: #42ae68 !important;
+}
+
+.btn-outline-primary {
+  color: #4aba70 !important;
+  background: transparent !important;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:focus {
+  background: transparent !important;
+}
 </style>

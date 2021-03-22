@@ -42,8 +42,7 @@
   .login-form .form-group {
     margin-bottom: 20px;
   }
-  .login-form .form-control,
-  .login-form .btn {
+  .login-form .form-control {
     min-height: 40px;
     border-radius: 2px;
     transition: all 0.5s;
@@ -53,16 +52,7 @@
     top: 15px;
     right: 15px;
   }
-  .login-form .btn,
-  .login-form .btn:active {
-    background: #4aba70 !important;
-    border: none;
-    line-height: normal;
-  }
-  .login-form .btn:hover,
-  .login-form .btn:focus {
-    background: #42ae68 !important;
-  }
+
   .login-form .checkbox-inline {
     float: left;
   }

@@ -20,6 +20,9 @@ export default createStore({
     isAuthorized(state) {
       return state.user.isAuthorized;
     },
+    userEmail(state) {
+      return state.user.email;
+    },
     userScore(state) {
       return state.user.score;
     },
