@@ -30,7 +30,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent-3">
           <ul class="navbar-nav ml-auto nav-flex-icons">
-            <div calass="float-right" v-if="isAuthorized == false">
+            <div class="float-right" v-if="isAuthorized == false">
               <router-link
                 :to="{ name: 'register' }"
                 class="btn btn-primary btn-outline-primary"
@@ -69,7 +69,6 @@
         </div>
       </div>
     </nav>
-    <!--/.Navbar -->
   </div>
 </template>
 <script>

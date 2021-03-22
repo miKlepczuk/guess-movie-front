@@ -39,20 +39,25 @@
     </div>
 
     <div class="hint" v-if="isHintButtonEnabled()">
-      <img class="hint__icon" src="../assets/images/hint.svg" @click="giveHint()" />
+      <img
+        class="hint__icon"
+        src="../assets/images/hint.svg"
+        @click="giveHint()"
+      />
     </div>
-
-    <div v-if="isEndOfGame" class="end-game-information">
-      Gratulacje! Koniec gry.
-    </div>
-    <div v-else>
-      <button
-        v-show="isCorrectAnswer"
-        class="button-next-puzzle"
-        @click="goToNextSentence"
-      >
-        Dalej >
-      </button>
+    <div classs="summary">
+      <div v-if="isEndOfGame" class="end-game-information">
+        Gratulacje! Koniec gry.
+      </div>
+      <div v-else>
+        <div
+          v-show="isCorrectAnswer"
+          class="btn btn-primary btn-lg"
+          @click="goToNextSentence"
+        >
+          Next
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -341,26 +346,11 @@ export default {
   width: auto;
 }
 .correct-letter {
-  color: green;
+  color: #05bf4e;
   border-color: transparent;
 }
 
 .end-game-information {
   font-size: 35px;
-}
-
-.button-next-puzzle,
-.button-next-puzzle:hover,
-.button-next-puzzle:active,
-.button-next-puzzle:focus,
-.button-next-puzzle:focus:active,
-.button-next-puzzle:active:focus {
-  font-size: 30px;
-  text-transform: uppercase;
-  background: white;
-  /* border: 2px solid teal; */
-  cursor: pointer;
-  padding: 8px 20px;
-  color: teal;
 }
 </style>

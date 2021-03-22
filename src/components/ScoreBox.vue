@@ -1,6 +1,11 @@
 <template>
-  <div class="score-box">
-    <h2>Twoje punkty: {{ userScore }}</h2>
+  <div class="score-box d-flex justify-content-end">
+    <div
+      class="score rounded-sm d-flex align-items-center justify-content-center"
+    >
+      <img class="score__image" src="../assets/images/score.svg" width="30" />
+      <span class="score__points">{{ userScore }}</span>
+    </div>
   </div>
 </template>
 
@@ -19,4 +24,19 @@ export default {
 </script>
 
 <style scoped>
+.score-box {
+  margin-bottom: 40px;
+}
+.score {
+  display: inline-block;
+  padding: 5px 9px;
+}
+.score__image {
+  display: inline-block;
+}
+.score__points {
+  font-size: 30px;
+  color: rgb(56, 56, 56);
+  padding-left: 5px;
+}
 </style>
