@@ -14,7 +14,7 @@
             class="d-inline-block align-middle"
             width="40"
           />
-          Guess What
+          Guess what
         </router-link>
 
         <button
@@ -93,7 +93,9 @@ export default {
 .user-avatar {
   margin-right: 3px;
 }
-
+.nav-item.dropdown {
+  cursor: pointer;
+}
 @media (max-width: 768px) {
   .user-email {
     display: none;
