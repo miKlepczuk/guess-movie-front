@@ -81,6 +81,13 @@ export default createStore({
       state.puzzles = puzzles;
     },
 
+    clearUser(state) {
+      state.user.score = 0;
+      state.user.email = '';
+      state.user.puzzleId = 1;
+      state.user.isAuthorized = false;
+    },
+
   },
   actions: {
     async LogIn({ commit }, user) {
@@ -102,6 +109,11 @@ export default createStore({
       })
       commit('setPuzzles', response.data)
     },
+    LogOut({ commit }) {
+      localStorage.removeItem("token");
+      commit('clearUser');
+    },
+
   },
   modules: {
   }

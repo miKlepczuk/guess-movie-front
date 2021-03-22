@@ -61,8 +61,7 @@
                 class="dropdown-menu dropdown-menu-right dropdown-unique"
                 aria-labelledby="navbarDropdownMenuLink"
               >
-                <a class="dropdown-item" href="#">Logout</a>
-                <a class="dropdown-item" href="#">Change password</a>
+                <a class="dropdown-item" @click="logout">Logout</a>
               </div>
             </li>
           </ul>
@@ -72,12 +71,18 @@
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "Navbar",
   computed: {
     ...mapGetters({ isAuthorized: "isAuthorized" }),
     ...mapGetters({ userEmail: "userEmail" }),
+  },
+  methods: {
+    ...mapActions(["LogOut"]),
+    logout() {
+      this.LogOut();
+    },
   },
 };
 </script>
