@@ -1,5 +1,5 @@
 <template>
-  <footer class="py-4 bg-light">
+  <footer class="border-top  py-4 bg-light">
     <div class="container text-center">
       <small> Copyright &copy; Guess what</small>
     </div>
