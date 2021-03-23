@@ -1,6 +1,6 @@
 <template>
   <div class="puzzle-indicator">
-    <span class="current-puzzle">{{ userPuzzleId + 1 }}</span>
+    <span class="current-puzzle">{{ userPuzzleId }}</span>
     <span class="separator">/</span>
     <span class="puzzles-quantity">{{ puzzlesQuantity }}</span>
   </div>

@@ -36,13 +36,13 @@ export default createStore({
     },
 
     isThisTheLastSentence(state) {
-      if (state.user.puzzleId - 1 == state.puzzlesQuantity) {
+      if (state.user.puzzleId == state.puzzlesQuantity) {
         return true;
       }
       return false;
     },
     isAllowedToLoadNextSentence(state) {
-      if (state.user.puzzleId - 1 > state.puzzlesQuantity) {
+      if (state.user.puzzleId > state.puzzlesQuantity) {
         return false;
       }
       return true;
@@ -54,7 +54,8 @@ export default createStore({
         return false;
     },
     currentPuzzleImage(state) {
-      return state.puzzles[state.user.puzzleId].image;
+      let puzzle = state.puzzles.find(element => element.id = state.user.puzzleId)
+      return puzzle.image;
     },
 
     userPuzzleId(state) {
@@ -62,14 +63,15 @@ export default createStore({
     },
 
     currentPuzzleSentence(state) {
-      return state.puzzles[state.user.puzzleId].sentence;
+      let puzzle = state.puzzles.find(element => element.id = state.user.puzzleId)
+      return puzzle.sentence;
     },
   },
 
   mutations: {
-    incrementCurrentSentenceId(state) {
+    incrementCurrentPuzzle(state) {
       if (this.getters.isThisTheLastSentence == false) {
-        state.user.puzzleId++
+        state.user.puzzleId = state.user.puzzleId + 1
       }
     },
     addPointsForCorrectAnswer: state => state.user.score = state.user.score + POINTS_FOR_CORRECT_ANSWER,
@@ -79,7 +81,7 @@ export default createStore({
       state.user.id = user.id;
       state.user.score = user.score;
       state.user.email = user.email;
-      state.user.puzzleId = user.puzzleId - 1;
+      state.user.puzzleId = user.puzzleId;
       state.user.isAuthorized = true;
     },
 
@@ -91,7 +93,7 @@ export default createStore({
       state.user.score = 0;
       state.user.id = 0;
       state.user.email = '';
-      state.user.puzzleId = 1;
+      state.user.puzzleId = 0;
       state.user.isAuthorized = false;
       state.puzzles = [{ id: '', sentence: '', image: '' }];
       state.puzzlesQuantity = 3;
