@@ -128,10 +128,23 @@ export default createStore({
       commit('substractPointsForHint');
       let form = { score: getters.userScore };
       const params = new URLSearchParams(form).toString();
-      let response = await axios.patch("users/" + getters.userId + '?' + params, form)
+      await axios.patch("users/" + getters.userId + '?' + params, form)
     },
 
+    async addPointsForCorrectAnswer({ commit, getters }) {
+      commit('addPointsForCorrectAnswer')
+      let form = { score: getters.userScore };
+      const params = new URLSearchParams(form).toString();
+      await axios.patch("users/" + getters.userId + '?' + params, form)
     },
+
+    async incrementPuzzle({ commit, getters }) {
+      commit('incrementCurrentPuzzle')
+      let form = { puzzleId: getters.userPuzzleId };
+      const params = new URLSearchParams(form).toString();
+      await axios.patch("users/" + getters.userId + '?' + params, form)
+    },
+
 
   },
   modules: {

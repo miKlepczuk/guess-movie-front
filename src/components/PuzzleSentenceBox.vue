@@ -62,6 +62,8 @@
   </div>
 </template>
 <script>
+import { mapActions, mapGetters } from "vuex";
+
 export default {
   name: "PuzzleSentenceBox",
 
@@ -76,11 +78,16 @@ export default {
     };
   },
   methods: {
+    ...mapActions(["substractPointsForHint"]),
+    ...mapActions(["addPointsForCorrectAnswer"]),
+    ...mapActions(["incrementPuzzle"]),
+    ...mapGetters(["currentPuzzleSentence"]),
     createSentenceMask() {
       String.prototype.cleanup = function () {
         return this.toLowerCase().replace(/[a-zA-ZżźćńółęąśŻŹĆĄŚĘŁÓŃ]/g, "_");
       };
-      this.sentenceMask = this.$store.getters.currentPuzzleSentence
+      console.log(this.currentPuzzleSentence())
+      this.sentenceMask = this.currentPuzzleSentence()
         .cleanup()
         .split("");
     },
@@ -151,11 +158,8 @@ export default {
         this.indexesOfScratteredLettersInMask[index] = null;
       }
     },
-    addPointsForCorrectAnswer() {
-      this.$store.commit("addPointsForCorrectAnswer");
-    },
     goToNextSentence() {
-      this.$store.commit("incrementCurrentSentenceId");
+      this.incrementPuzzle();
       this.prepareBoardForSentence();
     },
     prepareBoardForSentence() {
@@ -165,7 +169,7 @@ export default {
         this.hintedPositions = [];
         this.createSentenceMask();
         this.sentenceLetters = this.convertSentenceAsSplitedArray(
-          this.$store.getters.currentPuzzleSentence
+          this.currentPuzzleSentence()
         );
         this.scatterLetters(this.sentenceLetters);
       }
@@ -225,7 +229,7 @@ export default {
       return null;
     },
 
-    giveHint() {
+    async giveHint() {
       if (this.isHintButtonEnabled() == true) {
         var randomIndexLetter = this.randomLetterInSentenceToHint();
         var randomLetter = this.sentenceLetters[randomIndexLetter];
@@ -257,16 +261,18 @@ export default {
 
         this.assignLetterToMask(indexInScrattered, randomIndexLetter);
         this.hintedPositions.push(randomIndexLetter);
-        this.substractPointsForHint();
+
+        try {
+          await this.substractPointsForHint();
+        } catch (error) {
+          console.log(error.response.data.message);
+        }
       }
     },
     isHintButtonEnabled() {
       if (this.isCorrectAnswer == false && this.$store.getters.isHintAllowed)
         return true;
       return false;
-    },
-    substractPointsForHint() {
-      this.$store.commit("substractPointsForHint");
     },
   },
   mounted() {
@@ -276,7 +282,7 @@ export default {
     isCorrectAnswer() {
       if (
         this.sentenceMask.join("").toString() ==
-        this.$store.getters.currentPuzzleSentence.toLowerCase()
+        this.currentPuzzleSentence().toLowerCase()
       ) {
         return true;
       } else return false;
