@@ -8,6 +8,7 @@ const POINTS_FOR_SINGLE_HINT = 5;
 export default createStore({
   state: {
     user: {
+      id: 0,
       score: 0,
       email: '',
       puzzleId: 0,
@@ -23,6 +24,9 @@ export default createStore({
     },
     userEmail(state) {
       return state.user.email;
+    },
+    userId(state) {
+      return state.user.id;
     },
     userScore(state) {
       return state.user.score;
@@ -72,6 +76,7 @@ export default createStore({
     substractPointsForHint: state => state.user.score = state.user.score - POINTS_FOR_SINGLE_HINT,
 
     setUser(state, user) {
+      state.user.id = user.id;
       state.user.score = user.score;
       state.user.email = user.email;
       state.user.puzzleId = user.puzzleId - 1;
@@ -84,6 +89,7 @@ export default createStore({
 
     clearUser(state) {
       state.user.score = 0;
+      state.user.id = 0;
       state.user.email = '';
       state.user.puzzleId = 1;
       state.user.isAuthorized = false;
@@ -113,6 +119,15 @@ export default createStore({
     logOut({ commit }) {
       localStorage.removeItem("token");
       commit('clearUser');
+    },
+
+    async substractPointsForHint({ commit, getters }) {
+      commit('substractPointsForHint');
+      let form = { score: getters.userScore };
+      const params = new URLSearchParams(form).toString();
+      let response = await axios.patch("users/" + getters.userId + '?' + params, form)
+    },
+
     },
 
   },
