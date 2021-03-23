@@ -278,7 +278,6 @@ export default {
         this.sentenceMask.join("").toString() ==
         this.$store.getters.currentPuzzleSentence.toLowerCase()
       ) {
-        this.addPointsForCorrectAnswer();
         return true;
       } else return false;
     },
@@ -290,6 +289,13 @@ export default {
         return true;
       }
       return false;
+    },
+  },
+  watch: {
+    isCorrectAnswer: function (value) {
+      if (value == true) {
+        this.addPointsForCorrectAnswer();
+      }
     },
   },
 };
