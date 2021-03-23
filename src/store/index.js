@@ -15,7 +15,6 @@ export default createStore({
       isAuthorized: false
     },
     puzzles: [{ id: '', sentence: '', image: '' }],
-    puzzlesQuantity: 3,
   },
 
   getters: {
@@ -32,19 +31,20 @@ export default createStore({
       return state.user.score;
     },
     puzzlesQuantity(state) {
-      return state.puzzlesQuantity;
+      return state.puzzles.length;
     },
 
-    isThisTheLastSentence(state) {
-      if (state.user.puzzleId == state.puzzlesQuantity) {
+    isThisTheLastSentence(state, getters) {
+      if (state.user.puzzleId == getters.puzzlesQuantity) {
         return true;
       }
       return false;
     },
-    isAllowedToLoadNextSentence(state) {
-      if (state.user.puzzleId > state.puzzlesQuantity) {
+    isAllowedToLoadNextSentence(state, getters) {
+      if (state.user.puzzleId > getters.puzzlesQuantity) {
         return false;
       }
+
       return true;
     },
     isHintAllowed(state) {
@@ -96,7 +96,6 @@ export default createStore({
       state.user.puzzleId = 0;
       state.user.isAuthorized = false;
       state.puzzles = [{ id: '', sentence: '', image: '' }];
-      state.puzzlesQuantity = 3;
     }
   },
   actions: {
