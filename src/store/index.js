@@ -87,14 +87,15 @@ export default createStore({
       state.puzzles = puzzles;
     },
 
-    clearUser(state) {
+    clearState(state) {
       state.user.score = 0;
       state.user.id = 0;
       state.user.email = '';
       state.user.puzzleId = 1;
       state.user.isAuthorized = false;
-    },
-
+      state.puzzles = [{ id: '', sentence: '', image: '' }];
+      state.puzzlesQuantity = 3;
+    }
   },
   actions: {
     async logIn({ commit }, user) {
@@ -118,7 +119,7 @@ export default createStore({
     },
     logOut({ commit }) {
       localStorage.removeItem("token");
-      commit('clearUser');
+      commit('clearState');
     },
 
     async substractPointsForHint({ commit, getters }) {
