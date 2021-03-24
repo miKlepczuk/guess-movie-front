@@ -1,22 +1,22 @@
 <template>
   <div class="puzzle-picture border">
-          <PuzzleIndicator />
-    <img :src="puzzleImage" class="img-fluid" />
+    <PuzzleIndicator />
+    <img :src="currentPuzzleImage" class="img-fluid" />
   </div>
 </template>
 
 <script>
-import { useStore } from "vuex";
-import { computed } from "vue";
 import PuzzleIndicator from "@/components/PuzzleIndicator.vue";
+import { mapGetters } from "vuex";
 
 export default {
   name: "PuzzlePicture",
-  components: { PuzzleIndicator},
-  setup() {
-    const store = useStore();
-    const puzzleImage = computed(() => store.getters.currentPuzzleImage);
-    return { puzzleImage };
+  components: { PuzzleIndicator },
+  data() {},
+
+  computed: {
+    ...mapGetters(["currentPuzzleImage"]),
+
   },
 };
 </script>

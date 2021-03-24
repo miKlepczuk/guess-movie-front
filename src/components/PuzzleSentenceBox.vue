@@ -1,5 +1,5 @@
 <template>
-  <div class="puzzle-sentence-box">
+  <div class="puzzle-sentence-box" v-if="isAuthorized">
     <div class="sentence-mask">
       <div v-for="(letter, index) in sentenceMask" :key="index">
         <p
@@ -81,15 +81,11 @@ export default {
     ...mapActions(["substractPointsForHint"]),
     ...mapActions(["addPointsForCorrectAnswer"]),
     ...mapActions(["incrementPuzzle"]),
-    ...mapGetters(["currentPuzzleSentence"]),
     createSentenceMask() {
       String.prototype.cleanup = function () {
         return this.toLowerCase().replace(/[a-zA-ZżźćńółęąśŻŹĆĄŚĘŁÓŃ]/g, "_");
       };
-      console.log(this.currentPuzzleSentence())
-      this.sentenceMask = this.currentPuzzleSentence()
-        .cleanup()
-        .split("");
+      this.sentenceMask = this.currentPuzzleSentence.cleanup().split("");
     },
 
     convertSentenceAsSplitedArray(sentence) {
@@ -163,13 +159,16 @@ export default {
       this.prepareBoardForSentence();
     },
     prepareBoardForSentence() {
-      if (this.$store.getters.isAllowedToLoadNextSentence == true) {
+      if (
+        this.isAllowedToLoadNextSentence == true &&
+        this.isAuthorized == true
+      ) {
         this.isHintButtonEnabled();
         this.indexesOfScratteredLettersInMask = [];
         this.hintedPositions = [];
         this.createSentenceMask();
         this.sentenceLetters = this.convertSentenceAsSplitedArray(
-          this.currentPuzzleSentence()
+          this.currentPuzzleSentence
         );
         this.scatterLetters(this.sentenceLetters);
       }
@@ -270,28 +269,32 @@ export default {
       }
     },
     isHintButtonEnabled() {
-      if (this.isCorrectAnswer == false && this.$store.getters.isHintAllowed)
-        return true;
+      if (this.isCorrectAnswer == false && this.isHintAllowed) return true;
       return false;
     },
   },
-  mounted() {
+  created() {
     this.prepareBoardForSentence();
   },
   computed: {
+    ...mapGetters(["currentPuzzleSentence"]),
+    ...mapGetters(["isHintAllowed"]),
+    ...mapGetters(["isAllowedToLoadNextSentence"]),
+    ...mapGetters(["isThisTheLastSentence"]),
+    ...mapGetters(["isAuthorized"]),
+
     isCorrectAnswer() {
+      if (!this.currentPuzzleSentence) return false;
+
       if (
         this.sentenceMask.join("").toString() ==
-        this.currentPuzzleSentence().toLowerCase()
+        this.currentPuzzleSentence.toLowerCase()
       ) {
         return true;
       } else return false;
     },
     isEndOfGame() {
-      if (
-        this.isCorrectAnswer &&
-        this.$store.getters.isThisTheLastSentence == true
-      ) {
+      if (this.isCorrectAnswer && this.isThisTheLastSentence == true) {
         return true;
       }
       return false;
