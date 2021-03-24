@@ -49,8 +49,13 @@ export default {
     ...mapGetters(["mask"]),
     ...mapGetters({ isAnswerCorrect: "isAnswerCorrect" }),
   },
+  watch: {
+    isAnswerCorrect: function (value) {
+      if (value == true) {
+        this.addPointsForCorrectAnswer();
+      }
+    },
   },
-  watch: {},
 };
 </script>
 
