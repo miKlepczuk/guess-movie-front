@@ -64,11 +64,16 @@ export default {
             dispatch('setMask');
         },
 
-        incrementCurrentPuzzle({ commit, getters }) {
+        incrementCurrentPuzzle({ commit, dispatch, getters }) {
             if (getters.isThisTheLastSentence == false) {
                 commit('incrementUserPuzzleId');
+                dispatch('setScratteredLetters');
+                dispatch('setMask');
+                dispatch('incrementPuzzleApi');
             }
         },
+
+
     },
 
 }

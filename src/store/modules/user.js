@@ -95,8 +95,7 @@ export default {
                   ,)
         },
 
-        async incrementPuzzle({ dispatch, getters }) {
-            dispatch('incrementCurrentPuzzle')
+        async incrementPuzzleApi({ getters }) {
             let form = { puzzleId: getters.userPuzzleId };
             const params = new URLSearchParams(form).toString();
             await axios.patch("users/" + getters.userId + '?' + params, form, {
