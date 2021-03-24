@@ -11,7 +11,19 @@ const API_URL = 'https://127.0.0.1:8000/api/';
 
 axios.defaults.baseURL = API_URL;
 
+axios.interceptors.response.use(function (response) {
+    return response;
+}, function (error) {
+    if (401 === error.response.status) {
+        router.push({ name: "login" });
+    } else {
+        return Promise.reject(error);
+    }
+});
+
+
 const app = createApp(App)
+
 app.use(store)
 app.use(router)
 app.use(VueAxios, axios)
