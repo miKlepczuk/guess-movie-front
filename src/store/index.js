@@ -6,20 +6,26 @@ import puzzlesModule from "./modules/puzzles";
 
 export default createStore({
   state: {
-    // mask: [{position: 0, letter: 'g', isHinted: false, indexInScrattered: 0}],
+    mask: [{ position: 0, letter: 'g', isHinted: false, indexInScrattered: 0 }],
     scratteredLetters: []
   },
 
   getters: {
     scratteredLetters(state) {
       return state.scratteredLetters
+    },
+    mask(state) {
+      return state.mask
     }
   },
 
   mutations: {
     setScratteredLetters(state, sentence) {
       state.scratteredLetters = sentence
-    }
+    },
+    setMask(state, mask) {
+      state.mask = mask
+    },
   },
 
   actions: {
@@ -37,6 +43,16 @@ export default createStore({
         sentenceLengthTemp = sentenceLetters.length;
       }
       commit('setScratteredLetters', scratteredLetters);
+    },
+
+    setMask({ commit, getters }) {
+      let maskLetters = getters.currentPuzzleSentence.toLowerCase().replace(/[a-zA-ZżźćńółęąśŻŹĆĄŚĘŁÓŃ]/g, "_").split("")
+      let mask = [];
+      console.log(mask)
+      for (var i = 0; i < maskLetters.length; i++) {
+        mask.push({ letter: maskLetters[i], position: i, isHinted: false, indexInScrattered: null })
+      }
+      commit('setMask', mask);
     },
 
   },

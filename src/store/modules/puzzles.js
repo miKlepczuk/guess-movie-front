@@ -61,6 +61,7 @@ export default {
             })
             commit('setPuzzles', response.data)
             dispatch('setScratteredLetters');
+            dispatch('setMask');
         },
 
         incrementCurrentPuzzle({ commit, getters }) {
