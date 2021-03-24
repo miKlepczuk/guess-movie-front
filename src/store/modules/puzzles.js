@@ -53,13 +53,14 @@ export default {
         },
     },
     actions: {
-        async getPuzzles({ commit }) {
+        async getPuzzles({ commit, dispatch }) {
             let response = await axios.get("puzzles", {
                 headers: {
                     Authorization: "Bearer " + localStorage.getItem("token"),
                 },
             })
             commit('setPuzzles', response.data)
+            dispatch('setScratteredLetters');
         },
 
         incrementCurrentPuzzle({ commit, getters }) {

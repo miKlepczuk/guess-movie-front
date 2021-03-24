@@ -3,6 +3,12 @@
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-lg-8">
+          <PuzzleScratteredLetters />
+        </div>
+      </div>
+      
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
           <ScoreBox />
         </div>
       </div>
@@ -25,10 +31,16 @@
 import ScoreBox from "@/components/ScoreBox.vue";
 import PuzzlePicture from "@/components/PuzzlePicture.vue";
 import PuzzleSentenceBox from "@/components/PuzzleSentenceBox.vue";
+import PuzzleScratteredLetters from "@/components/PuzzleSentenceBox/ScratteredLetters.vue";
 
 export default {
   name: "GameBoard",
-  components: { ScoreBox, PuzzlePicture, PuzzleSentenceBox },
+  components: {
+    ScoreBox,
+    PuzzlePicture,
+    PuzzleSentenceBox,
+    PuzzleScratteredLetters,
+  },
   setup() {},
 };
 </script>
