@@ -6,6 +6,7 @@
           v-show="item.isVisible"
           class="letters__single-letter"
           :index="index"
+          @click="chooseLetterToMask(item)"
         >
           {{ item.letter }}
         </span>
@@ -23,7 +24,7 @@ export default {
     return {};
   },
   methods: {
-    ...mapActions(["setScratteredLetters"]),
+    ...mapActions(["chooseLetterToMask"]),
   },
   created() {},
   computed: {

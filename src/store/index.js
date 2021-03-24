@@ -6,7 +6,7 @@ import puzzlesModule from "./modules/puzzles";
 
 export default createStore({
   state: {
-    mask: [{ position: 0, letter: 'g', isHinted: false, indexInScrattered: 0 }],
+    mask: [{ position: 0, letter: '', isHinted: false, indexInScrattered: 0 }],
     scratteredLetters: []
   },
 
@@ -16,6 +16,13 @@ export default createStore({
     },
     mask(state) {
       return state.mask
+    },
+    firstFreePositionInMask(state) {
+      for (var i = 0; i < state.mask.length; i++) {
+        if (state.mask[i].letter == '_')
+          return i;
+      }
+      return -1;
     }
   },
 
@@ -26,6 +33,17 @@ export default createStore({
     setMask(state, mask) {
       state.mask = mask
     },
+    saveItemToMask(state, playload) {
+      let position = playload.position;
+      let item = playload.item;
+      if (position >= 0) {
+        state.mask[position].letter = item.letter
+        state.mask[position].indexInScrattered = item.position
+      }
+    },
+    hideLetterInScratteted(state, position) {
+      state.scratteredLetters[position].isVisible = false;
+    }
   },
 
   actions: {
@@ -48,12 +66,20 @@ export default createStore({
     setMask({ commit, getters }) {
       let maskLetters = getters.currentPuzzleSentence.toLowerCase().replace(/[a-zA-ZżźćńółęąśŻŹĆĄŚĘŁÓŃ]/g, "_").split("")
       let mask = [];
-      console.log(mask)
       for (var i = 0; i < maskLetters.length; i++) {
         mask.push({ letter: maskLetters[i], position: i, isHinted: false, indexInScrattered: null })
       }
       commit('setMask', mask);
     },
+
+    chooseLetterToMask({ commit, getters }, item) {
+      let playload = {
+        position: getters.firstFreePositionInMask,
+        item: item
+      }
+      commit('saveItemToMask', playload);
+      commit('hideLetterInScratteted', item.position);
+    }
 
   },
 
