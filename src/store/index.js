@@ -41,11 +41,18 @@ export default createStore({
         state.mask[position].indexInScrattered = item.position
       }
     },
-    hideLetterInScratteted(state, position) {
+    hideLetterInScrattered(state, position) {
       state.scratteredLetters[position].isVisible = false;
+    },
+
+    removeItemFromMask(state, itemMask) {
+      state.mask[itemMask.position].letter = '_'
+      state.mask[itemMask.position].indexInScrattered = null
+    },
+    showLetterInScrattered(state, itemMask) {
+      state.scratteredLetters[itemMask.indexInScrattered].isVisible = true;
     }
   },
-
   actions: {
     setScratteredLetters({ commit, getters }) {
       let sentenceLetters = getters.currentPuzzleSentence.toLowerCase().replace(/ /g, "").split("")
@@ -78,7 +85,15 @@ export default createStore({
         item: item
       }
       commit('saveItemToMask', playload);
-      commit('hideLetterInScratteted', item.position);
+      commit('hideLetterInScrattered', item.position);
+    },
+
+    removeLetterFromMask({ commit }, itemMask) {
+      var letter = itemMask.letter;
+      if (letter !== " " && letter !== "_" && itemMask.isHinted == false) {
+        commit('showLetterInScrattered', itemMask);
+        commit('removeItemFromMask', itemMask);
+      }
     }
 
   },

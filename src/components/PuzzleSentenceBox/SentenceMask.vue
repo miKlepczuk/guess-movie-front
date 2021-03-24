@@ -9,6 +9,7 @@
           'correct-letter': item.isHinted,
         }"
         :style="clicableCss(item)"
+          @click="removeLetterFromMask(item)"
       >
         <span v-if="item.letter !== '_'"> {{ item.letter }} </span>
       </p>
@@ -26,7 +27,8 @@ export default {
     return {};
   },
   methods: {
-    ...mapActions(["setMask"]),
+    ...mapActions(["removeLetterFromMask"]),
+
     clicableCss(item) {
       if (item.letter !== " " && item.letter !== "_" && item.isHinted == false)
         return "cursor: pointer";
