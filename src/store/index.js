@@ -7,7 +7,8 @@ import puzzlesModule from "./modules/puzzles";
 export default createStore({
   state: {
     mask: [{ position: 0, letter: '', isHinted: false, indexInScrattered: 0 }],
-    scratteredLetters: []
+    scratteredLetters: [],
+    isCorrectAnswer: false
   },
 
   getters: {
@@ -23,6 +24,18 @@ export default createStore({
           return i;
       }
       return -1;
+    },
+
+    isAnswerCorrect(state, getters) {
+      if (getters.firstFreePositionInMask < 0) {
+        let sentenceLetters = getters.currentPuzzleSentence.toLowerCase().split("")
+        for (var i = 0; i < state.mask.length; i++) {
+          if (state.mask[i].letter !== sentenceLetters[i])
+            return false;
+        }
+        return true;
+      }
+      return false;
     }
   },
 
@@ -51,6 +64,9 @@ export default createStore({
     },
     showLetterInScrattered(state, itemMask) {
       state.scratteredLetters[itemMask.indexInScrattered].isVisible = true;
+    },
+    setCorrectAnswer(state, value) {
+      state.isCorrectAnswer = value
     }
   },
   actions: {
@@ -94,7 +110,8 @@ export default createStore({
         commit('showLetterInScrattered', itemMask);
         commit('removeItemFromMask', itemMask);
       }
-    }
+    },
+
 
   },
 

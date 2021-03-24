@@ -9,7 +9,7 @@
           'correct-letter': item.isHinted,
         }"
         :style="clicableCss(item)"
-          @click="removeLetterFromMask(item)"
+        @click="removeLetter(item)"
       >
         <span v-if="item.letter !== '_'"> {{ item.letter }} </span>
       </p>
@@ -28,16 +28,27 @@ export default {
   },
   methods: {
     ...mapActions(["removeLetterFromMask"]),
+    ...mapActions(["addPointsForCorrectAnswer"]),
 
+    removeLetter(itemMask) {
+      if (this.isAnswerCorrect == false) {
+        this.removeLetterFromMask(itemMask);
+      }
+    },
     clicableCss(item) {
-      if (item.letter !== " " && item.letter !== "_" && item.isHinted == false)
-        return "cursor: pointer";
-      else return "cursor: auto";
+      let auto = "cursor: auto";
+      if (this.isAnswerCorrect == true) return auto;
+      if (item.letter == " ") return auto;
+      if (item.letter == "_") return auto;
+      if (item.isHinted == true) return auto;
+      else return "cursor: pointer";
     },
   },
   created() {},
   computed: {
     ...mapGetters(["mask"]),
+    ...mapGetters({ isAnswerCorrect: "isAnswerCorrect" }),
+  },
   },
   watch: {},
 };
