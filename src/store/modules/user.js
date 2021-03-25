@@ -1,5 +1,5 @@
 import axios from 'axios'
-import constants from './consts.js'
+import constants from '../../constants.js'
 
 
 export default {
