@@ -9,9 +9,11 @@ export default {
 
     getters: {
         puzzlesQuantity(state) {
-            return state.puzzles.length;
+            if (state.puzzles)
+                return state.puzzles.length;
+            else
+                return 0;
         },
-
         isThisTheLastSentence(state, getters) {
             if (getters.userPuzzleId == getters.puzzlesQuantity) {
                 return true;
