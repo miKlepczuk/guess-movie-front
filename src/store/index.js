@@ -54,8 +54,8 @@ export default createStore({
         state.mask[position].indexInScrattered = item.position
       }
     },
-    hideLetterInScrattered(state, position) {
-      state.scratteredLetters[position].isVisible = false;
+    hideItemInScrattered(state, item) {
+      state.scratteredLetters[item.position].isVisible = false;
     },
 
     removeItemFromMask(state, itemMask) {
@@ -101,7 +101,7 @@ export default createStore({
         itemScrattered: itemScrattered
       }
       commit('saveItemToMask', playload);
-      commit('hideLetterInScrattered', itemScrattered.position);
+      commit('hideItemInScrattered', itemScrattered);
     },
 
     removeLetterFromMask({ commit }, itemMask) {
