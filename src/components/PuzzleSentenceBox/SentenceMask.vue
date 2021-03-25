@@ -6,7 +6,7 @@
         :index="index"
         :class="{
           'sign-space': item.letter == ' ',
-          'correct-letter': item.isHinted,
+          'correct-letter': isCorrectLetter(item),
         }"
         :style="clicableCss(item)"
         @click="removeLetter(item)"
@@ -42,6 +42,11 @@ export default {
       if (item.letter == "_") return auto;
       if (item.isHinted == true) return auto;
       else return "cursor: pointer";
+    },
+    isCorrectLetter(item) {
+      if (item.isHinted) return true;
+      else if (this.isAnswerCorrect) return true;
+      else return false;
     },
   },
   created() {},
