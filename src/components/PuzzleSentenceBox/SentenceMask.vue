@@ -19,6 +19,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import constants from "../../constants.js";
 
 export default {
   name: "SentenceMask",
@@ -28,7 +29,7 @@ export default {
   },
   methods: {
     ...mapActions(["removeLetterFromMask"]),
-    ...mapActions(["addPointsForCorrectAnswer"]),
+    ...mapActions(["changeUserScore"]),
 
     removeLetter(itemMask) {
       if (this.isAnswerCorrect == false) {
@@ -53,11 +54,13 @@ export default {
   computed: {
     ...mapGetters(["mask"]),
     ...mapGetters({ isAnswerCorrect: "isAnswerCorrect" }),
+    ...mapGetters(["userScore"]),
   },
   watch: {
     isAnswerCorrect: function (value) {
       if (value == true) {
-        this.addPointsForCorrectAnswer();
+        let newScore = this.userScore + constants.POINTS_FOR_CORRECT_ANSWER;
+        this.changeUserScore(newScore);
       }
     },
   },

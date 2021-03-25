@@ -1,6 +1,4 @@
 import axios from 'axios'
-import constants from '../../constants.js'
-
 
 export default {
     state: {
@@ -46,13 +44,11 @@ export default {
             state.user.puzzleId = 0;
             state.user.isAuthorized = false;
         },
-        addPointsForCorrectAnswer(state, points) {
-            state.user.score = state.user.score + points
+
+        changeUserScore(state, newScore) {
+            state.user.score = newScore
         },
 
-        substractPointsForHint(state, points) {
-            state.user.score = state.user.score - points
-        },
         incrementUserPuzzleId(state) {
             state.user.puzzleId = state.user.puzzleId + 1
         }
@@ -71,8 +67,8 @@ export default {
             commit('setUser', response.data.user);
         },
 
-        async substractPointsForHint({ commit, getters }) {
-            commit('substractPointsForHint', constants.POINTS_FOR_SINGLE_HINT);
+        async changeUserScore({ commit, getters }, newScore) {
+            commit('changeUserScore', newScore);
             let form = { score: getters.userScore };
             const params = new URLSearchParams(form).toString();
             await axios.patch("users/" + getters.userId + '?' + params, form,
@@ -81,18 +77,6 @@ export default {
                         Authorization: "Bearer " + localStorage.getItem("token"),
                     }
                 })
-        },
-
-        async addPointsForCorrectAnswer({ commit, getters }) {
-            commit('addPointsForCorrectAnswer', constants.POINTS_FOR_CORRECT_ANSWER)
-            let form = { score: getters.userScore };
-            const params = new URLSearchParams(form).toString();
-            await axios.patch("users/" + getters.userId + '?' + params, form, {
-                headers: {
-                    Authorization: "Bearer " + localStorage.getItem("token"),
-                }
-            }
-                  ,)
         },
 
         async incrementPuzzleApi({ getters }) {
