@@ -280,7 +280,7 @@ export default {
     ...mapGetters(["currentPuzzleSentence"]),
     ...mapGetters(["isHintAllowed"]),
     ...mapGetters(["isAllowedToLoadNextSentence"]),
-    ...mapGetters(["isThisTheLastSentence"]),
+    ...mapGetters(["isThisTheLastPuzzle"]),
     ...mapGetters(["isAuthorized"]),
 
     isCorrectAnswer() {
@@ -294,7 +294,7 @@ export default {
       } else return false;
     },
     isEndOfGame() {
-      if (this.isCorrectAnswer && this.isThisTheLastSentence == true) {
+      if (this.isCorrectAnswer && this.isThisTheLastPuzzle == true) {
         return true;
       }
       return false;

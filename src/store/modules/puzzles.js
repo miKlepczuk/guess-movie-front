@@ -14,7 +14,7 @@ export default {
             else
                 return 0;
         },
-        isThisTheLastSentence(state, getters) {
+        isThisTheLastPuzzle(state, getters) {
             if (getters.userPuzzleId == getters.puzzlesQuantity) {
                 return true;
             }
@@ -67,7 +67,7 @@ export default {
         },
 
         incrementCurrentPuzzle({ commit, dispatch, getters }) {
-            if (getters.isThisTheLastSentence == false) {
+            if (getters.isThisTheLastPuzzle == false) {
                 commit('incrementUserPuzzleId');
                 dispatch('setScratteredLetters');
                 dispatch('setMask');
