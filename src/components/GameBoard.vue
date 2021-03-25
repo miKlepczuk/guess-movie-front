@@ -23,7 +23,7 @@
       </div>
       <div class="row justify-content-center">
         <div class="col-lg-6">
-          <PuzzleSentenceBox />
+        
         </div>
       </div>
     </div>
@@ -33,7 +33,6 @@
 <script>
 import ScoreBox from "@/components/ScoreBox.vue";
 import PuzzlePicture from "@/components/PuzzlePicture.vue";
-import PuzzleSentenceBox from "@/components/PuzzleSentenceBox.vue";
 import PuzzleScratteredLetters from "@/components/PuzzleSentenceBox/ScratteredLetters.vue";
 import SentenceMask from "@/components/PuzzleSentenceBox/SentenceMask.vue";
 import GameSummary from "@/components/PuzzleSentenceBox/GameSummary.vue";
@@ -43,7 +42,6 @@ export default {
   components: {
     ScoreBox,
     PuzzlePicture,
-    PuzzleSentenceBox,
     PuzzleScratteredLetters,
     SentenceMask,
     GameSummary,
