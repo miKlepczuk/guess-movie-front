@@ -6,6 +6,7 @@
           <SentenceMask />
 
           <PuzzleScratteredLetters />
+          <PuzzleHint />
           <GameSummary />
         </div>
       </div>
@@ -36,6 +37,7 @@ import PuzzlePicture from "@/components/PuzzlePicture.vue";
 import PuzzleScratteredLetters from "@/components/PuzzleSentenceBox/ScratteredLetters.vue";
 import SentenceMask from "@/components/PuzzleSentenceBox/SentenceMask.vue";
 import GameSummary from "@/components/PuzzleSentenceBox/GameSummary.vue";
+import PuzzleHint from "@/components/PuzzleSentenceBox/PuzzleHint.vue";
 
 export default {
   name: "GameBoard",
@@ -45,6 +47,7 @@ export default {
     PuzzleScratteredLetters,
     SentenceMask,
     GameSummary,
+    PuzzleHint
   },
   setup() {},
 };
