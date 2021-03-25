@@ -43,6 +43,9 @@ export default {
             if (puzzle)
                 return puzzle.sentence;
         },
+        currentPuzzleSentenceAsArray(state, getters) {
+            return getters.currentPuzzleSentence.toLowerCase().split("");
+        }
     },
 
     mutations: {

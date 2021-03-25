@@ -28,7 +28,7 @@ export default createStore({
 
     isAnswerCorrect(state, getters) {
       if (getters.firstFreePositionInMask < 0) {
-        let sentenceLetters = getters.currentPuzzleSentence.toLowerCase().split("")
+        let sentenceLetters = getters.currentPuzzleSentenceAsArray
         for (var i = 0; i < state.mask.length; i++) {
           if (state.mask[i].letter !== sentenceLetters[i])
             return false;
