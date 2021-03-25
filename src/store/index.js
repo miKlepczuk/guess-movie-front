@@ -104,7 +104,7 @@ export default createStore({
       commit('hideItemInScrattered', itemScrattered);
     },
 
-    removeLetterFromMask({ commit }, itemMask) {
+    removeItemFromMask({ commit }, itemMask) {
       var letter = itemMask.letter;
       if (letter !== " " && letter !== "_" && itemMask.isHinted == false) {
         commit('showLetterInScrattered', itemMask);

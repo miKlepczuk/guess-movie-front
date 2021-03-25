@@ -28,12 +28,12 @@ export default {
     return {};
   },
   methods: {
-    ...mapActions(["removeLetterFromMask"]),
+    ...mapActions(["removeItemFromMask"]),
     ...mapActions(["changeUserScore"]),
 
     removeLetter(itemMask) {
       if (this.isAnswerCorrect == false) {
-        this.removeLetterFromMask(itemMask);
+        this.removeItemFromMask(itemMask);
       }
     },
     clicableCss(item) {
