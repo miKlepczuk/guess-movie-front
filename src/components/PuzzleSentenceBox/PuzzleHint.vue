@@ -21,6 +21,8 @@ export default {
   methods: {
     ...mapActions(["logIn"]),
     ...mapActions(["changeUserScore"]),
+    ...mapActions(["assignHintedLetterToMask"]),
+    ...mapActions(["removeItemFromMask"]),
 
     isHintAllowed() {
       if (this.userScore < constants.POINTS_FOR_SINGLE_HINT) return false;
@@ -28,17 +30,82 @@ export default {
       else return true;
     },
 
+    randomPositionForHintInMask() {
+      return this.firstFreePositionInMask;
+    },
+
+    findItemInScratteredByLetter(letter) {
+      let item = this.scratteredLetters.find(
+        (element) => element.letter == letter && element.isVisible == true
+      );
+      if (item) return item;
+      else return null;
+    },
+
+    findIncorrectItemInMaskByLetter(letter) {
+      let item = this.mask.find(
+        (element) =>
+          element.letter == letter &&
+          element.letter != this.sentenceSplitted[element.position]
+      );
+      if (item) return item;
+      else return null;
+    },
+
+    assignLetterFromScrattedToMask(positionInMask) {
+      let letterInMask = this.sentenceSplitted[positionInMask];
+      console.log("letterInMask: ");
+      console.log(letterInMask);
+
+      // at first find suitable itemScratterd for random letter in Mask
+      let itemInScrattered = this.findItemInScratteredByLetter(letterInMask);
+      console.log("itemInScrattered: ");
+      console.log(itemInScrattered);
+
+      if (itemInScrattered == null) {
+        console.log(
+          "There is lack of available item to choose in scattered. User has made a mistake. He has chosen incorrect letter " +
+            letterInMask
+        );
+
+        let incorrectItemInMask = this.findIncorrectItemInMaskByLetter(
+          letterInMask
+        );
+        console.log("incorrectItemInMask");
+        console.log(incorrectItemInMask);
+
+        this.removeItemFromMask(incorrectItemInMask);
+
+        return false;
+      } else {
+        let playload = {
+          position: positionInMask,
+          itemScrattered: itemInScrattered,
+        };
+        this.assignHintedLetterToMask(playload);
+        return true;
+      }
+    },
+
     giveHint() {
       if (this.isHintAllowed() == true) {
-        console.log("hint is allowed");
+        console.log("Hint is allowed.");
         try {
           let newScore = this.userScore - constants.POINTS_FOR_SINGLE_HINT;
           this.changeUserScore(newScore);
+
+          let positionInMask = this.randomPositionForHintInMask();
+          console.log("positionInMask: ");
+          console.log(positionInMask);
+
+          let isAssigned = this.assignLetterFromScrattedToMask(positionInMask);
+          if (isAssigned == false)
+            this.assignLetterFromScrattedToMask(positionInMask);
         } catch (error) {
-          console.log(error.response.data.message);
+          console.log("Error occurred.");
         }
       } else {
-        console.log("hint is not allowed");
+        console.log("Hint is not allowed.");
       }
     },
   },
@@ -47,6 +114,12 @@ export default {
     ...mapGetters(["userScore"]),
     ...mapGetters(["isThisTheLastPuzzle"]),
     ...mapGetters(["isAnswerCorrect"]),
+    ...mapGetters(["firstFreePositionInMask"]),
+    ...mapGetters(["scratteredLetters"]),
+    ...mapGetters(["mask"]),
+    ...mapGetters(["currentPuzzleSentence"]),
+    ...mapGetters({ sentenceSplitted: "currentPuzzleSentenceAsArray" }),
+    ...mapGetters(["isMaskCompleted"]),
   },
   watch: {},
 };

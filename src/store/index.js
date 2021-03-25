@@ -112,6 +112,10 @@ export default createStore({
       }
     },
 
+    assignHintedLetterToMask({ commit }, playload) {
+      commit('saveItemToMask', playload);
+      commit('hideItemInScrattered', playload.itemScrattered);
+    },
 
   },
 
