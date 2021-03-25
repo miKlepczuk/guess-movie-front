@@ -48,7 +48,7 @@ export default createStore({
     },
     saveItemToMask(state, playload) {
       let position = playload.position;
-      let item = playload.item;
+      let item = playload.itemScrattered;
       if (position >= 0) {
         state.mask[position].letter = item.letter
         state.mask[position].indexInScrattered = item.position
@@ -95,13 +95,13 @@ export default createStore({
       commit('setMask', mask);
     },
 
-    chooseLetterToMask({ commit, getters }, item) {
+    chooseLetterToMask({ commit, getters }, itemScrattered) {
       let playload = {
         position: getters.firstFreePositionInMask,
-        item: item
+        itemScrattered: itemScrattered
       }
       commit('saveItemToMask', playload);
-      commit('hideLetterInScrattered', item.position);
+      commit('hideLetterInScrattered', itemScrattered.position);
     },
 
     removeLetterFromMask({ commit }, itemMask) {
