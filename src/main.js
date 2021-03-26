@@ -14,10 +14,10 @@ axios.defaults.baseURL = API_URL;
 axios.interceptors.response.use(function (response) {
     return response;
 }, function (error) {
-    router.push({ name: "login" });
     if (401 === error.response.status) {
         store.dispatch('logOut')
-        router.push({ name: "login" });
+        if (router.currentRoute._value.name !== 'login')
+            router.push({ name: "login" });
     } else {
         return Promise.reject(error);
     }

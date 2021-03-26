@@ -66,7 +66,7 @@ export default {
         await this.logIn(user);
         this.$router.push({ name: "home" });
       } catch (error) {
-        this.errorMessage = error.response.data.message;
+        this.errorMessage = 'The email or password did not match';
       }
     },
   },
