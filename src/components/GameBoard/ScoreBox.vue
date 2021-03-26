@@ -3,7 +3,7 @@
     <div
       class="score rounded-sm d-flex align-items-center justify-content-center"
     >
-      <img class="score__image" src="../assets/images/score.svg" width="30" />
+      <img class="score__image" src="../../assets/images/score.svg" width="30" />
       <span class="score__points">{{ userScore }}</span>
     </div>
   </div>

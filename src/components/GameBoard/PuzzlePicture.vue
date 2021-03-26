@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import PuzzleIndicator from "@/components/PuzzleIndicator.vue";
+import PuzzleIndicator from "@/components/GameBoard/PuzzleIndicator.vue";
 import { mapGetters } from "vuex";
 
 export default {
