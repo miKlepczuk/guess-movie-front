@@ -1,5 +1,5 @@
 <template>
-  <div class="hint" :class="isHintAllowed() == false ? 'hint--disabled' : ''">
+  <div class="hint d-flex justify-content-end" :class="isHintAllowed() == false ? 'hint--disabled' : ''">
     <img
       class="hint__icon"
       src="../../assets/images/hint.svg"
@@ -23,6 +23,20 @@ export default {
     ...mapActions(["changeUserScore"]),
     ...mapActions(["assignItemToMask"]),
     ...mapActions(["removeItemFromMask"]),
+
+    giveHint() {
+      if (this.isHintAllowed() == true) {
+        try {
+          let newScore = this.userScore - constants.POINTS_FOR_SINGLE_HINT;
+          this.changeUserScore(newScore);
+          let positionInMask = this.randomPositionForHintInMask();
+          this.removeWrongItemsInMaskIfExists(positionInMask);
+          this.assignItemFromScratteredToMask(positionInMask);
+        } catch (error) {
+          console.log("Error occurred.");
+        }
+      }
+    },
 
     isHintAllowed() {
       if (this.userScore < constants.POINTS_FOR_SINGLE_HINT) return false;
@@ -48,6 +62,12 @@ export default {
       return Math.floor(Math.random() * (number - 1 + 1));
     },
 
+    findItemByPosition(collection, position) {
+      let item = collection.find((element) => element.position == position);
+      if (item) return item;
+      else return null;
+    },
+
     isCorrectItemInMaskByPosition(position) {
       let item = this.mask.find(
         (element) =>
@@ -56,55 +76,6 @@ export default {
       );
       if (item) return true;
       else return false;
-    },
-
-    findItemByPosition(collection, position) {
-      let item = collection.find((element) => element.position == position);
-      if (item) return item;
-      else return null;
-    },
-
-    findItemInScratteredByLetter(letter) {
-      let item = this.scratteredLetters.find(
-        (element) => element.letter == letter && element.isVisible == true
-      );
-      if (item) return item;
-      else return null;
-    },
-
-    findIncorrectItemInMaskByLetter(letter) {
-      let item = this.mask.find(
-        (element) =>
-          element.letter == letter &&
-          element.letter != this.sentenceSplitted[element.position]
-      );
-      if (item) return item;
-      else return null;
-    },
-
-    assignItemFromScratteredToMask(positionInMask) {
-      let correctLetterInMask = this.sentenceSplitted[positionInMask];
-      let item = this.findItemInScratteredByLetter(correctLetterInMask);
-      let playload = {
-        position: positionInMask,
-        itemScrattered: item,
-        isHinted: true,
-      };
-      this.assignItemToMask(playload);
-    },
-
-    giveHint() {
-      if (this.isHintAllowed() == true) {
-        try {
-          let newScore = this.userScore - constants.POINTS_FOR_SINGLE_HINT;
-          this.changeUserScore(newScore);
-          let positionInMask = this.randomPositionForHintInMask();
-          this.removeWrongItemsInMaskIfExists(positionInMask);
-          this.assignItemFromScratteredToMask(positionInMask);
-        } catch (error) {
-          console.log("Error occurred.");
-        }
-      }
     },
 
     removeWrongItemsInMaskIfExists(position) {
@@ -122,6 +93,25 @@ export default {
       );
       if (wrongChoosenItemInMask)
         this.removeItemFromMask(wrongChoosenItemInMask);
+    },
+
+    assignItemFromScratteredToMask(positionInMask) {
+      let correctLetterInMask = this.sentenceSplitted[positionInMask];
+      let item = this.findItemInScratteredByLetter(correctLetterInMask);
+      let playload = {
+        position: positionInMask,
+        itemScrattered: item,
+        isHinted: true,
+      };
+      this.assignItemToMask(playload);
+    },
+
+    findItemInScratteredByLetter(letter) {
+      let item = this.scratteredLetters.find(
+        (element) => element.letter == letter && element.isVisible == true
+      );
+      if (item) return item;
+      else return null;
     },
 
     getWrongItemInMaskByPosition(position) {
@@ -147,6 +137,16 @@ export default {
       );
       if (item) return true;
       else return false;
+    },
+
+    findIncorrectItemInMaskByLetter(letter) {
+      let item = this.mask.find(
+        (element) =>
+          element.letter == letter &&
+          element.letter != this.sentenceSplitted[element.position]
+      );
+      if (item) return item;
+      else return null;
     },
   },
   created() {},
