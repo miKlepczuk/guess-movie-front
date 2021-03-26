@@ -35,10 +35,10 @@
 <script>
 import ScoreBox from "@/components/ScoreBox.vue";
 import PuzzlePicture from "@/components/PuzzlePicture.vue";
-import PuzzleScratteredLetters from "@/components/PuzzleSentenceBox/ScratteredLetters.vue";
-import SentenceMask from "@/components/PuzzleSentenceBox/SentenceMask.vue";
-import GameSummary from "@/components/PuzzleSentenceBox/GameSummary.vue";
-import PuzzleHint from "@/components/PuzzleSentenceBox/PuzzleHint.vue";
+import PuzzleScratteredLetters from "@/components/GameBoard/ScratteredLetters.vue";
+import SentenceMask from "@/components/GameBoard/SentenceMask.vue";
+import GameSummary from "@/components/GameBoard/GameSummary.vue";
+import PuzzleHint from "@/components/GameBoard/PuzzleHint.vue";
 
 export default {
   name: "GameBoard",
