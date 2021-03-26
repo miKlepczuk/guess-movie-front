@@ -31,7 +31,37 @@ export default {
     },
 
     randomPositionForHintInMask() {
-      return this.firstFreePositionInMask;
+      let position = this.randomizeToNumber(this.mask.length);
+      let itemMask = this.findItemByPosition(this.mask, position);
+      if (this.isMaskCompleted == false) {
+        if (itemMask.letter == " ") return this.randomPositionForHintInMask();
+        if (itemMask.letter !== "_") return this.randomPositionForHintInMask();
+      } else if (this.isMaskCompleted == true) {
+        let isCorrectItem = this.isCorrectItemInMaskByPosition(position);
+        if (isCorrectItem == true) return this.randomPositionForHintInMask();
+      }
+
+      return position;
+    },
+
+    randomizeToNumber(number) {
+      return Math.floor(Math.random() * (number - 1 + 1));
+    },
+
+    isCorrectItemInMaskByPosition(position) {
+      let item = this.mask.find(
+        (element) =>
+          element.position == position &&
+          element.letter == this.sentenceSplitted[element.position]
+      );
+      if (item) return true;
+      else return false;
+    },
+
+    findItemByPosition(collection, position) {
+      let item = collection.find((element) => element.position == position);
+      if (item) return item;
+      else return null;
     },
 
     findItemInScratteredByLetter(letter) {

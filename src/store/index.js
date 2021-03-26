@@ -36,6 +36,14 @@ export default createStore({
         return true;
       }
       return false;
+    },
+    isMaskCompleted(state) {
+      for (var i = 0; i < state.mask.length; i++) {
+        if (state.mask[i].letter == "_") {
+          return false;
+        }
+      }
+      return true;
     }
   },
 
