@@ -2,29 +2,30 @@
   <div class="game-board">
     <div class="container">
       <div class="row justify-content-center">
-        <div class="col-lg-8">
-          <SentenceMask />
-
-          <PuzzleScratteredLetters />
-          <PuzzleHint />
-          <GameSummary />
-        </div>
-      </div>
-
-      <div class="row justify-content-center">
-        <div class="col-lg-8">
+        <div class="col-8">
           <ScoreBox />
         </div>
       </div>
 
       <div class="row justify-content-center">
-        <div class="col-lg-6">
+        <div class="col-8">
           <PuzzlePicture />
         </div>
-      </div>
-      <div class="row justify-content-center">
-        <div class="col-lg-6">
-        
+
+        <div class="col-8">
+          <SentenceMask />
+        </div>
+
+        <div class="col-8">
+          <PuzzleScratteredLetters />
+        </div>
+
+        <div class="col-8">
+          <PuzzleHint />
+        </div>
+
+        <div class="col-8">
+          <GameSummary />
         </div>
       </div>
     </div>
@@ -47,7 +48,7 @@ export default {
     PuzzleScratteredLetters,
     SentenceMask,
     GameSummary,
-    PuzzleHint
+    PuzzleHint,
   },
   setup() {},
 };
