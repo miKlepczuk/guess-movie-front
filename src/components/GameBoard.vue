@@ -13,15 +13,15 @@
         </div>
 
         <div class="col-8">
+          <PuzzleHint />
+        </div>
+        
+        <div class="col-8">
           <SentenceMask />
         </div>
 
         <div class="col-8">
           <PuzzleScratteredLetters />
-        </div>
-
-        <div class="col-8">
-          <PuzzleHint />
         </div>
 
         <div class="col-8">

@@ -24,7 +24,7 @@ export default {
 
 <style scoped>
 .puzzle-picture {
-  margin-bottom: 50px;
+  margin-bottom: 25px;
   background: whitesmoke;
   padding: 20px 50px 50px;
 }

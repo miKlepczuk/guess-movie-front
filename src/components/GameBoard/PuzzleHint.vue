@@ -170,7 +170,7 @@ export default {
   cursor: pointer;
   display: inline-block;
   padding: 0 7px;
-  margin-top: 50px;
+  margin-bottom: 15px;
 }
 .hint__icon {
   height: 40px;
