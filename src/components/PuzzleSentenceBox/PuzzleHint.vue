@@ -21,7 +21,7 @@ export default {
   methods: {
     ...mapActions(["logIn"]),
     ...mapActions(["changeUserScore"]),
-    ...mapActions(["assignHintedLetterToMask"]),
+    ...mapActions(["assignItemToMask"]),
     ...mapActions(["removeItemFromMask"]),
 
     isHintAllowed() {

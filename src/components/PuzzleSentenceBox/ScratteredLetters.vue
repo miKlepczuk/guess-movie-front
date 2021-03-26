@@ -6,7 +6,7 @@
           v-show="item.isVisible"
           class="letters__single-letter"
           :index="index"
-          @click="chooseLetterToMask(item)"
+          @click="chooseItemToMask(item)"
         >
           {{ item.letter }}
         </span>
@@ -24,11 +24,21 @@ export default {
     return {};
   },
   methods: {
-    ...mapActions(["chooseLetterToMask"]),
+    ...mapActions(["assignItemToMask"]),
+
+    chooseItemToMask(item) {
+      let playload = {
+        position: this.firstFreePositionInMask,
+        itemScrattered: item,
+        isHinted: false,
+      };
+      this.assignItemToMask(playload);
+    },
   },
   created() {},
   computed: {
     ...mapGetters(["scratteredLetters"]),
+    ...mapGetters(["firstFreePositionInMask"]),
   },
   watch: {},
 };

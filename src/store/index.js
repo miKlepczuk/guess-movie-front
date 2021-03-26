@@ -60,6 +60,7 @@ export default createStore({
       if (position >= 0) {
         state.mask[position].letter = item.letter
         state.mask[position].indexInScrattered = item.position
+        state.mask[position].isHinted = playload.isHinted
       }
     },
     hideItemInScrattered(state, item) {
@@ -103,13 +104,9 @@ export default createStore({
       commit('setMask', mask);
     },
 
-    chooseLetterToMask({ commit, getters }, itemScrattered) {
-      let playload = {
-        position: getters.firstFreePositionInMask,
-        itemScrattered: itemScrattered
-      }
+    assignItemToMask({ commit }, playload) {
       commit('saveItemToMask', playload);
-      commit('hideItemInScrattered', itemScrattered);
+      commit('hideItemInScrattered', playload.itemScrattered);
     },
 
     removeItemFromMask({ commit }, itemMask) {
@@ -118,11 +115,6 @@ export default createStore({
         commit('showLetterInScrattered', itemMask);
         commit('removeItemFromMask', itemMask);
       }
-    },
-
-    assignHintedLetterToMask({ commit }, playload) {
-      commit('saveItemToMask', playload);
-      commit('hideItemInScrattered', playload.itemScrattered);
     },
 
   },
