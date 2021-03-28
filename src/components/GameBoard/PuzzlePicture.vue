@@ -16,7 +16,6 @@ export default {
 
   computed: {
     ...mapGetters(["currentPuzzleImage"]),
-
   },
 };
 </script>
@@ -27,6 +26,12 @@ export default {
   margin-bottom: 25px;
   background: whitesmoke;
   padding: 20px 50px 50px;
+}
+
+@media (max-width: 768px) {
+  .puzzle-picture {
+    padding: 15px;
+  }
 }
 </style>
 

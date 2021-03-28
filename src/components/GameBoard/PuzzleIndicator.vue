@@ -21,16 +21,25 @@ export default {
 };
 </script>
 <style scoped>
+.puzzle-indicator {
+  font-size: 2.5rem;
+}
 .current-puzzle {
-  font-weight: 400;
-  font-size: 40px;
-  color: rgb(31, 30, 30);
+  color: rgb(0, 0, 0);
 }
 .separator,
 .puzzles-quantity {
-  font-weight: 300;
-  padding: 0 3px;
   color: #404040;
-  font-size: 37px;
+}
+.separator {
+  font-size: 2.4rem;
+  font-weight: 300;
+}
+
+@media (max-width: 768px) {
+  .puzzle-indicator,
+  .separator {
+    font-size: 2rem;
+  }
 }
 </style>

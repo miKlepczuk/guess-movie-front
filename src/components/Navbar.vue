@@ -10,10 +10,9 @@
         >
           <img
             src="../assets/images/head.svg"
-            class="d-inline-block align-middle"
-            width="40"
+            class="d-inline-block align-middle brand-image"
           />
-          Guess what
+          <span class="brand-name">Guess what</span>
         </router-link>
 
         <button
@@ -71,6 +70,7 @@
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
+
 export default {
   name: "Navbar",
   computed: {
@@ -81,12 +81,18 @@ export default {
     ...mapActions(["logOut"]),
     logout() {
       this.logOut();
-        this.$router.push({ name: "login" });
+      this.$router.push({ name: "login" });
     },
   },
 };
 </script>
 <style scoped>
+.brand-name {
+  font-family: "Londrina Solid", cursive;
+}
+.brand-image {
+  width: 40px;
+}
 .navbar-dark {
   background: rgb(228, 228, 228);
 }
@@ -99,6 +105,9 @@ export default {
 @media (max-width: 768px) {
   .user-email {
     display: none;
+  }
+  .brand-image {
+    width: 30px;
   }
 }
 </style>

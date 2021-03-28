@@ -35,8 +35,13 @@ export default {
   display: inline-block;
 }
 .score__points {
-  font-size: 30px;
+  font-size: 2rem;
   color: rgb(56, 56, 56);
   padding-left: 5px;
+}
+@media (max-width: 768px) {
+  .score__points{
+  font-size: 1.8rem;
+  }
 }
 </style>

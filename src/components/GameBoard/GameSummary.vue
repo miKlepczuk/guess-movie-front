@@ -48,4 +48,20 @@ export default {
   margin-bottom: 15px;
   color: #559e58;
 }
+
+.title {
+  font-family: "Londrina Solid", cursive;
+}
+.subtitle {
+  font-family: "Open Sans Condensed", sans-serif;
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 1.8rem;
+  }
+  .subtitle {
+    font-size: 1.4rem;
+  }
+}
 </style>
