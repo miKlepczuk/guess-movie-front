@@ -7,7 +7,8 @@ export default {
             score: 0,
             email: '',
             puzzleId: 0,
-            isAuthorized: false
+            isAuthorized: false,
+            isGameFinished: false
         },
     },
 
@@ -27,6 +28,9 @@ export default {
         userPuzzleId(state) {
             return state.user.puzzleId;
         },
+        isGameFinished(state) {
+            return state.user.isGameFinished;
+        },
     },
 
     mutations: {
@@ -36,6 +40,7 @@ export default {
             state.user.email = user.email;
             state.user.puzzleId = user.puzzleId;
             state.user.isAuthorized = true;
+            state.user.isGameFinished = user.isGameFinished;
         },
         clearUserState(state) {
             state.user.score = 0;
@@ -43,6 +48,7 @@ export default {
             state.user.email = '';
             state.user.puzzleId = 0;
             state.user.isAuthorized = false;
+            state.user.isGameFinished = false;
         },
 
         changeUserScore(state, newScore) {
@@ -51,6 +57,9 @@ export default {
 
         incrementUserPuzzleId(state) {
             state.user.puzzleId = state.user.puzzleId + 1
+        },
+        finishGame(state) {
+            state.user.isGameFinished = true
         }
     },
     actions: {
@@ -93,6 +102,18 @@ export default {
             localStorage.removeItem("token");
             commit('clearUserState');
             commit('clearPuzzlesState');
+        },
+
+        async finishGame({ commit, getters }) {
+            commit('finishGame');
+            let form = { isGameFinished: true };
+            const params = new URLSearchParams(form).toString();
+            await axios.patch("users/" + getters.userId + '?' + params, form,
+                {
+                    headers: {
+                        Authorization: "Bearer " + localStorage.getItem("token"),
+                    }
+                })
         },
     },
 

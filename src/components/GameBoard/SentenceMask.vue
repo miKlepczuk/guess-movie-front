@@ -30,6 +30,7 @@ export default {
   methods: {
     ...mapActions(["removeItemFromMask"]),
     ...mapActions(["changeUserScore"]),
+    ...mapActions(["finishGame"]),
 
     removeLetter(itemMask) {
       if (this.isAnswerCorrect == false) {
@@ -55,12 +56,14 @@ export default {
     ...mapGetters(["mask"]),
     ...mapGetters({ isAnswerCorrect: "isAnswerCorrect" }),
     ...mapGetters(["userScore"]),
+    ...mapGetters(["isThisTheLastPuzzle"]),
   },
   watch: {
     isAnswerCorrect: function (value) {
       if (value == true) {
         let newScore = this.userScore + constants.POINTS_FOR_CORRECT_ANSWER;
         this.changeUserScore(newScore);
+        if (this.isThisTheLastPuzzle) this.finishGame();
       }
     },
   },

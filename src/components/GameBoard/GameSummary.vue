@@ -1,17 +1,19 @@
 <template>
   <div classs="summary">
-    <!-- <div v-if="isEndOfGame" class="end-game-information">
-      Congratulations! <br>This is end of the game!
+    <template v-if="isGameFinished">
+      <div class="end-game-information">
+        <h1 class="title">Congratulations!</h1>
+        <h3 class="subtitle">You've finished the game.</h3>
+      </div>
+    </template>
 
-    </div>
-    <div v-else> -->
     <div
+      v-else
       v-show="isAnswerCorrect"
       class="btn btn-primary btn-lg"
       @click="goToNextSentence()"
     >
       Next
-      <!-- </div> -->
     </div>
   </div>
 </template>
@@ -34,7 +36,16 @@ export default {
   created() {},
   computed: {
     ...mapGetters({ isAnswerCorrect: "isAnswerCorrect" }),
+    ...mapGetters(["isGameFinished"]),
   },
   watch: {},
 };
 </script>
+<style scoped>
+.end-game-information {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #559e58;
+}
+</style>
