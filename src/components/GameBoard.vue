@@ -2,29 +2,31 @@
   <div class="game-board">
     <div class="container">
       <div class="row justify-content-center">
-        <div class="col-8">
+        <div class="col-lg-8">
           <ScoreBox />
         </div>
       </div>
 
       <div class="row justify-content-center">
-        <div class="col-8">
-          <PuzzlePicture />
-        </div>
+        <template v-if="!isGameFinished">
+          <div class="col-lg-8">
+            <PuzzlePicture />
+          </div>
 
-        <div class="col-8">
-          <PuzzleHint />
-        </div>
-        
-        <div class="col-8">
-          <SentenceMask />
-        </div>
+          <div class="col-lg-8">
+            <PuzzleHint />
+          </div>
 
-        <div class="col-8">
-          <PuzzleScratteredLetters />
-        </div>
+          <div class="col-lg-8">
+            <SentenceMask />
+          </div>
 
-        <div class="col-8">
+          <div class="col-lg-8">
+            <PuzzleScratteredLetters />
+          </div>
+        </template>
+
+        <div class="col-lg-8">
           <GameSummary />
         </div>
       </div>
@@ -39,6 +41,7 @@ import PuzzleScratteredLetters from "@/components/GameBoard/ScratteredLetters.vu
 import SentenceMask from "@/components/GameBoard/SentenceMask.vue";
 import GameSummary from "@/components/GameBoard/GameSummary.vue";
 import PuzzleHint from "@/components/GameBoard/PuzzleHint.vue";
+import { mapGetters } from "vuex";
 
 export default {
   name: "GameBoard",
@@ -50,7 +53,12 @@ export default {
     GameSummary,
     PuzzleHint,
   },
-  setup() {},
+  methods: {},
+  created() {},
+  computed: {
+    ...mapGetters(["isGameFinished"]),
+  },
+  watch: {},
 };
 </script>
 
