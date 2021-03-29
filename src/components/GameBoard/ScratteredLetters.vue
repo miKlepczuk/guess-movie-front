@@ -45,6 +45,9 @@ export default {
 </script>
 
 <style scoped>
+.puzzle-scrattered-letters {
+  min-height: 45px;
+}
 .letters,
 .sentence-mask {
   display: flex;
@@ -52,7 +55,7 @@ export default {
   justify-content: center;
 }
 .letters__single-letter {
-  border: 1px solid black;
+  border: 1px solid rgb(54, 54, 54);
   width: 40px;
   height: 40px;
   margin: 0 5px;
@@ -63,5 +66,8 @@ export default {
 }
 .letters__single-letter:hover {
   cursor: pointer;
+  border: 1px solid rgb(0, 0, 0);
+  color: rgb(0, 0, 0);
+  font-size: 32px;
 }
 </style>

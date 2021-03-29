@@ -1,5 +1,8 @@
 <template>
-  <div class="hint d-flex justify-content-end" :class="isHintAllowed() == false ? 'hint--disabled' : ''">
+  <div
+    class="hint d-flex justify-content-end"
+    :class="isHintAllowed() == false ? 'hint--disabled' : ''"
+  >
     <img
       class="hint__icon"
       src="../../assets/images/hint.svg"
@@ -167,17 +170,24 @@ export default {
 
 <style scoped>
 .hint {
-  cursor: pointer;
-  display: inline-block;
   padding: 0 7px;
   margin-bottom: 15px;
+  height: 43px;
 }
 .hint__icon {
+  cursor: pointer;
   height: 40px;
   width: auto;
 }
+.hint__icon:hover {
+  height: 43px;
+}
 .hint--disabled {
   opacity: 0.5;
+}
+
+.hint--disabled .hint__icon {
   cursor: auto;
+  height: 40px;
 }
 </style>
