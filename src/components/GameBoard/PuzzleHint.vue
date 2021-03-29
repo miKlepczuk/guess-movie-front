@@ -190,4 +190,13 @@ export default {
   cursor: auto;
   height: 40px;
 }
+
+@media (max-width: 768px) {
+  .hint__icon {
+    height: 35px;
+  }
+  .hint--disabled .hint__icon {
+    height: 35px;
+  }
+}
 </style>

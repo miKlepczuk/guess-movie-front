@@ -2,7 +2,7 @@
   <div class="home">
     <ContentLoader v-if="showPresentation == false && puzzlesQuantity == 0" />
     <GameBoard v-if="puzzlesQuantity > 0" />
-    <Presentation v-if="showPresentation == true || puzzlesQuantity == 0" />
+    <Presentation v-if="showPresentation == true" />
   </div>
 </template>
 

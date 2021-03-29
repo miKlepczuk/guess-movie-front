@@ -25,7 +25,7 @@ export default {
 
 <style scoped>
 .score-box {
-  margin-bottom: 40px;
+  margin: 10px 0;
 }
 .score {
   display: inline-block;
@@ -41,7 +41,7 @@ export default {
 }
 @media (max-width: 768px) {
   .score__points{
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   }
 }
 </style>

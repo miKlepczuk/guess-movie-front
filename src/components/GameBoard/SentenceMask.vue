@@ -1,18 +1,18 @@
 <template>
   <div class="sentence-mask">
-    <div v-for="(item, index) in mask" :key="index">
-      <p
-        class="sentence-mask__single-sign"
-        :index="index"
-        :class="{
-          'sign-space': item.letter == ' ',
-          'correct-letter': isCorrectLetter(item),
-        }"
-        :style="clicableCss(item)"
-        @click="removeLetter(item)"
-      >
-        <span v-if="item.letter !== '_'"> {{ item.letter }} </span>
-      </p>
+    <div
+      v-for="(item, index) in mask"
+      :key="index"
+      class="sentence-mask__single-sign"
+      :index="index"
+      :class="{
+        'sign-space': item.letter == ' ',
+        'correct-letter': isCorrectLetter(item),
+      }"
+      :style="clicableCss(item)"
+      @click="removeLetter(item)"
+    >
+      <span v-if="item.letter !== '_'"> {{ item.letter }} </span>
     </div>
   </div>
 </template>
@@ -73,28 +73,14 @@ export default {
 <style scoped>
 .sentence-mask {
   font-size: 50px;
-  letter-spacing: 5px;
-  text-transform: capitalize;
+  letter-spacing: 0;
   margin-bottom: 50px;
-}
-.sentence-mask {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
 }
-.letters__single-letter {
-  border: 1px solid black;
-  width: 40px;
-  height: 40px;
-  margin: 0 5px;
-  font-size: 30px;
-  display: inline-block;
-  line-height: 40px;
-  text-transform: capitalize;
-}
-.letters__single-letter:hover {
-  cursor: pointer;
-}
+
 .sentence-mask__single-sign {
   font-size: 35px;
   line-height: 35px;
@@ -103,6 +89,8 @@ export default {
   margin: 0 3px;
   text-align: center;
   border-bottom: 2px solid gray;
+  letter-spacing: 0;
+  text-transform: capitalize;
 }
 .sign-space {
   border-bottom: 2px solid transparent;
@@ -110,5 +98,15 @@ export default {
 .correct-letter {
   color: #05bf4e;
   border-color: transparent;
+}
+
+@media (max-width: 768px) {
+  .sentence-mask__single-sign {
+    font-size: 25px;
+    line-height: 25px;
+    width: 25px;
+    height: 25px;
+    margin: 0 2px;
+  }
 }
 </style>

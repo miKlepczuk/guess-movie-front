@@ -47,14 +47,16 @@ export default {
   text-align: center;
   font-weight: bold;
   margin-bottom: 15px;
-  color: #559e58;
+  color: #05bf4e;
 }
 
 .title {
   font-family: "Londrina Solid", cursive;
+  font-size: 2.5rem;
 }
 .subtitle {
   font-family: "Open Sans Condensed", sans-serif;
+  font-size: 1.6rem;
 }
 
 @media (max-width: 768px) {
