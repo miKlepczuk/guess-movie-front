@@ -44,7 +44,9 @@ export default {
                 return puzzle.sentence;
         },
         currentPuzzleSentenceAsArray(state, getters) {
-            return getters.currentPuzzleSentence.toLowerCase().split("");
+            let sentence = getters.currentPuzzleSentence;
+            if (sentence)
+                return sentence.toLowerCase().split("");
         }
     },
 
@@ -76,6 +78,7 @@ export default {
         incrementCurrentPuzzle({ commit, dispatch, getters }) {
             if (getters.isThisTheLastPuzzle == false) {
                 commit('incrementUserPuzzleId');
+                dispatch('startPuzzle');
                 dispatch('setScratteredLetters');
                 dispatch('setMask');
                 dispatch('incrementPuzzleApi');

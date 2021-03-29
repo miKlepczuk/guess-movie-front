@@ -1,20 +1,22 @@
 export default {
     state: {
-        mask: [{ position: 0, letter: '', isHinted: false, indexInScrattered: 0 }],
-        scratteredLetters: [],
-        isCorrectAnswer: false
+        game: {
+            mask: [{ position: 0, letter: '', isHinted: false, indexInScrattered: 0 }],
+            scratteredLetters: [],
+            isCorrectAnswer: false
+        }
     },
 
     getters: {
         scratteredLetters(state) {
-            return state.scratteredLetters
+            return state.game.scratteredLetters
         },
         mask(state) {
-            return state.mask
+            return state.game.mask
         },
         firstFreePositionInMask(state) {
-            for (var i = 0; i < state.mask.length; i++) {
-                if (state.mask[i].letter == '_')
+            for (var i = 0; i < state.game.mask.length; i++) {
+                if (state.game.mask[i].letter == '_')
                     return i;
             }
             return -1;
@@ -23,8 +25,8 @@ export default {
         isAnswerCorrect(state, getters) {
             if (getters.firstFreePositionInMask < 0) {
                 let sentenceLetters = getters.currentPuzzleSentenceAsArray
-                for (var i = 0; i < state.mask.length; i++) {
-                    if (state.mask[i].letter !== sentenceLetters[i])
+                for (var i = 0; i < state.game.mask.length; i++) {
+                    if (state.game.mask[i].letter !== sentenceLetters[i])
                         return false;
                 }
                 return true;
@@ -32,8 +34,8 @@ export default {
             return false;
         },
         isMaskCompleted(state) {
-            for (var i = 0; i < state.mask.length; i++) {
-                if (state.mask[i].letter == "_") {
+            for (var i = 0; i < state.game.mask.length; i++) {
+                if (state.game.mask[i].letter == "_") {
                     return false;
                 }
             }
@@ -43,47 +45,58 @@ export default {
 
     mutations: {
         setScratteredLetters(state, sentence) {
-            state.scratteredLetters = sentence
+            state.game.scratteredLetters = sentence
+
+
         },
         setMask(state, mask) {
-            state.mask = mask
+            state.game.mask = mask
         },
         saveItemToMask(state, playload) {
             let position = playload.position;
             let item = playload.itemScrattered;
             if (position >= 0) {
-                let old = state.mask;
-                state.mask = {}
-                state.mask = old
-                state.mask[position].letter = item.letter
-                state.mask[position].indexInScrattered = item.position
-                state.mask[position].isHinted = playload.isHinted
+                let old = state.game.mask;
+                state.game.mask = {}
+                state.game.mask = old
+                state.game.mask[position].letter = item.letter
+                state.game.mask[position].indexInScrattered = item.position
+                state.game.mask[position].isHinted = playload.isHinted
             }
         },
         hideItemInScrattered(state, item) {
-            state.scratteredLetters[item.position].isVisible = false;
+            state.game.scratteredLetters[item.position].isVisible = false;
         },
 
         removeItemFromMask(state, itemMask) {
-            state.mask[itemMask.position].letter = '_'
-            state.mask[itemMask.position].indexInScrattered = null
+            state.game.mask[itemMask.position].letter = '_'
+            state.game.mask[itemMask.position].indexInScrattered = null
         },
         showLetterInScrattered(state, itemMask) {
-            state.scratteredLetters[itemMask.indexInScrattered].isVisible = true;
+            state.game.scratteredLetters[itemMask.indexInScrattered].isVisible = true;
         },
         setCorrectAnswer(state, value) {
-            state.isCorrectAnswer = value
+            state.game.isCorrectAnswer = value
+        },
+        clearGameState(state) {
+            state.game.mask = []
+            state.game.scratteredLetters = []
+            state.game.isCorrectAnswer = false
         }
     },
     actions: {
         setScratteredLetters({ commit, getters }) {
+            let isVisible = true;
+            if (getters.isPuzzleFinished == true) {
+                isVisible = false;
+            }
             let sentenceLetters = getters.currentPuzzleSentence.toLowerCase().replace(/ /g, "").split("")
             var scratteredLetters = [];
             var sentenceLength = sentenceLetters.length;
             var sentenceLengthTemp = sentenceLength;
             for (var i = 0; i < sentenceLength; i++) {
                 var randomPosition = Math.floor(Math.random() * (sentenceLengthTemp - 1 + 1));
-                scratteredLetters.push({ letter: sentenceLetters[randomPosition], position: i, isVisible: true })
+                scratteredLetters.push({ letter: sentenceLetters[randomPosition], position: i, isVisible: isVisible })
                 var sentenceTemp = sentenceLetters.join("");
                 sentenceTemp = (sentenceTemp.slice(0, randomPosition) + sentenceTemp.slice(randomPosition + 1)).split("")
                 sentenceLetters = sentenceTemp
@@ -93,10 +106,18 @@ export default {
         },
 
         setMask({ commit, getters }) {
-            let maskLetters = getters.currentPuzzleSentence.toLowerCase().replace(/[a-zA-ZżźćńółęąśŻŹĆĄŚĘŁÓŃ]/g, "_").split("")
             let mask = [];
+            let maskLetters = []
+            var isHinted = false;
+            if (getters.isPuzzleFinished == true) {
+                maskLetters = getters.currentPuzzleSentenceAsArray
+                isHinted = true;
+            } else {
+                maskLetters = getters.currentPuzzleSentence.toLowerCase().replace(/[a-zA-ZżźćńółęąśŻŹĆĄŚĘŁÓŃ]/g, "_").split("")
+                isHinted = false;
+            }
             for (var i = 0; i < maskLetters.length; i++) {
-                mask.push({ letter: maskLetters[i], position: i, isHinted: false, indexInScrattered: null })
+                mask.push({ letter: maskLetters[i], position: i, isHinted: isHinted, indexInScrattered: null })
             }
             commit('setMask', mask);
         },

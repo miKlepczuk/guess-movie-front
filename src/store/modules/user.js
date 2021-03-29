@@ -8,7 +8,8 @@ export default {
             email: '',
             puzzleId: 0,
             isAuthorized: false,
-            isGameFinished: false
+            isGameFinished: false,
+            isPuzzleFinished: false,
         },
     },
 
@@ -31,6 +32,9 @@ export default {
         isGameFinished(state) {
             return state.user.isGameFinished;
         },
+        isPuzzleFinished(state) {
+            return state.user.isPuzzleFinished;
+        },
     },
 
     mutations: {
@@ -40,7 +44,8 @@ export default {
             state.user.email = user.email;
             state.user.puzzleId = user.puzzleId;
             state.user.isAuthorized = true;
-            state.user.isGameFinished = user.isGameFinished;
+            state.user.isGameFinished = (user.isGameFinished == 1 ? true : false);
+            state.user.isPuzzleFinished = (user.isPuzzleFinished == 1 ? true : false);
         },
         clearUserState(state) {
             state.user.score = 0;
@@ -48,7 +53,8 @@ export default {
             state.user.email = '';
             state.user.puzzleId = 0;
             state.user.isAuthorized = false;
-            state.user.isGameFinished = false;
+            state.user.isGameFinished = true;
+            state.user.isPuzzleFinished = true;
         },
 
         changeUserScore(state, newScore) {
@@ -60,6 +66,9 @@ export default {
         },
         finishGame(state) {
             state.user.isGameFinished = true
+        },
+        changeIsPuzzleFinished(state, newState) {
+            state.user.isPuzzleFinished = newState
         }
     },
     actions: {
@@ -78,7 +87,7 @@ export default {
 
         async changeUserScore({ commit, getters }, newScore) {
             commit('changeUserScore', newScore);
-            let form = { score: getters.userScore };
+            let form = { score: getters.userScore, isPuzzleFinished: getters.isPuzzleFinished };
             const params = new URLSearchParams(form).toString();
             await axios.patch("users/" + getters.userId + '?' + params, form,
                 {
@@ -89,7 +98,7 @@ export default {
         },
 
         async incrementPuzzleApi({ getters }) {
-            let form = { puzzleId: getters.userPuzzleId };
+            let form = { puzzleId: getters.userPuzzleId, isPuzzleFinished: getters.isPuzzleFinished };
             const params = new URLSearchParams(form).toString();
             await axios.patch("users/" + getters.userId + '?' + params, form, {
                 headers: {
@@ -100,6 +109,7 @@ export default {
 
         logOut({ commit }) {
             localStorage.removeItem("token");
+            commit('clearGameState');
             commit('clearUserState');
             commit('clearPuzzlesState');
         },
@@ -115,6 +125,15 @@ export default {
                     }
                 })
         },
+        
+        finishPuzzle({ commit }) {
+            commit('changeIsPuzzleFinished', true);
+        },
+
+        startPuzzle({ commit }) {
+            commit('changeIsPuzzleFinished', false);
+        },
+
     },
 
 }

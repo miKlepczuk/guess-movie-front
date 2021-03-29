@@ -31,6 +31,7 @@ export default {
     ...mapActions(["removeItemFromMask"]),
     ...mapActions(["changeUserScore"]),
     ...mapActions(["finishGame"]),
+    ...mapActions(["finishPuzzle"]),
 
     removeLetter(itemMask) {
       if (this.isAnswerCorrect == false) {
@@ -62,6 +63,7 @@ export default {
     isAnswerCorrect: function (value) {
       if (value == true) {
         let newScore = this.userScore + constants.POINTS_FOR_CORRECT_ANSWER;
+        this.finishPuzzle();
         this.changeUserScore(newScore);
         if (this.isThisTheLastPuzzle) this.finishGame();
       }

@@ -9,7 +9,7 @@
 
     <div
       v-else
-      v-show="isAnswerCorrect"
+      v-show="isAnswerCorrect || isPuzzleFinished"
       class="btn btn-primary btn-lg"
       @click="goToNextSentence()"
     >
@@ -37,6 +37,7 @@ export default {
   computed: {
     ...mapGetters({ isAnswerCorrect: "isAnswerCorrect" }),
     ...mapGetters(["isGameFinished"]),
+    ...mapGetters(["isPuzzleFinished"]),
   },
   watch: {},
 };
