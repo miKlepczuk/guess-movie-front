@@ -8,7 +8,6 @@ export default {
             email: '',
             puzzleId: 0,
             isAuthorized: false,
-            isGameFinished: false,
             isPuzzleFinished: false,
         },
     },
@@ -29,8 +28,11 @@ export default {
         userPuzzleId(state) {
             return state.user.puzzleId;
         },
-        isGameFinished(state) {
-            return state.user.isGameFinished;
+        isGameFinished(state, getters) {
+            if (getters.isThisTheLastPuzzle && state.user.isPuzzleFinished) {
+                return true
+            }
+            return false
         },
         isPuzzleFinished(state) {
             return state.user.isPuzzleFinished;
@@ -44,7 +46,6 @@ export default {
             state.user.email = user.email;
             state.user.puzzleId = user.puzzleId;
             state.user.isAuthorized = true;
-            state.user.isGameFinished = (user.isGameFinished == 1 ? true : false);
             state.user.isPuzzleFinished = (user.isPuzzleFinished == 1 ? true : false);
         },
         clearUserState(state) {
@@ -53,7 +54,6 @@ export default {
             state.user.email = '';
             state.user.puzzleId = 0;
             state.user.isAuthorized = false;
-            state.user.isGameFinished = true;
             state.user.isPuzzleFinished = true;
         },
 
@@ -64,9 +64,7 @@ export default {
         incrementUserPuzzleId(state) {
             state.user.puzzleId = state.user.puzzleId + 1
         },
-        finishGame(state) {
-            state.user.isGameFinished = true
-        },
+
         changeIsPuzzleFinished(state, newState) {
             state.user.isPuzzleFinished = newState
         }
@@ -114,18 +112,6 @@ export default {
             commit('clearPuzzlesState');
         },
 
-        async finishGame({ commit, getters }) {
-            commit('finishGame');
-            let form = { isGameFinished: true };
-            const params = new URLSearchParams(form).toString();
-            await axios.patch("users/" + getters.userId + '?' + params, form,
-                {
-                    headers: {
-                        Authorization: "Bearer " + localStorage.getItem("token"),
-                    }
-                })
-        },
-        
         finishPuzzle({ commit }) {
             commit('changeIsPuzzleFinished', true);
         },

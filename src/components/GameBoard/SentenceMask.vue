@@ -30,7 +30,6 @@ export default {
   methods: {
     ...mapActions(["removeItemFromMask"]),
     ...mapActions(["changeUserScore"]),
-    ...mapActions(["finishGame"]),
     ...mapActions(["finishPuzzle"]),
 
     removeLetter(itemMask) {
@@ -65,7 +64,6 @@ export default {
         let newScore = this.userScore + constants.POINTS_FOR_CORRECT_ANSWER;
         this.finishPuzzle();
         this.changeUserScore(newScore);
-        if (this.isThisTheLastPuzzle) this.finishGame();
       }
     },
   },
