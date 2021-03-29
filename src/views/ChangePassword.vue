@@ -42,7 +42,6 @@
                   :disabled="isError && isSubmited == false"
                 />
               </form>
-
             </div>
           </div>
         </div>
@@ -85,6 +84,9 @@ export default {
     isValidatePasswords() {
       if (this.form.password != this.form.confirmPassword) {
         this.errorMessage = "The password confirmation does not match";
+        this.isError = true;
+      } else if (this.form.password.length() < 6) {
+        this.errorMessage = "Your password must be at least 6 characters long";
         this.isError = true;
       } else {
         this.errorMessage = "";
