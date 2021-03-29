@@ -120,6 +120,16 @@ export default {
             commit('changeIsPuzzleFinished', false);
         },
 
+        async changePassword( {getters},form) {
+            const params = new URLSearchParams(form).toString();
+            await axios.patch("users/" + getters.userId + '?' + params, form,
+                {
+                    headers: {
+                        Authorization: "Bearer " + localStorage.getItem("token"),
+                    }
+                })
+        },
+
     },
 
 }

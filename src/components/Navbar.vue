@@ -57,6 +57,12 @@
               aria-labelledby="navbarDropdownMenuLink"
             >
               <a class="dropdown-item" @click="logout">Logout</a>
+              <router-link
+                :to="{ name: 'ChangePassword' }"
+                class="dropdown-item"
+              >
+                Change password
+              </router-link>
             </div>
           </li>
         </ul>
