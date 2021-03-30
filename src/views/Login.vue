@@ -10,7 +10,7 @@
                   <img src="../assets/images/avatar.svg" />
                 </div>
                 <h4 class="modal-title">Login to Your Account</h4>
-                <div class="alert alert-error" v-if="errorMessage.length > 0">
+                <div class="alert alert-danger" v-if="errorMessage.length > 0">
                   {{ errorMessage }}
                 </div>
                 <div class="form-group">

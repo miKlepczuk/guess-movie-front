@@ -69,6 +69,7 @@
   .login-form a {
     color: #4aba70;
   }
-  .alert-error{
+  .alert-danger{
     color:rgb(201, 13, 13)
   }
+  .alert-success{color: #4aba70}

@@ -11,7 +11,7 @@
                 </div>
                 <h4 class="modal-title">Sign up</h4>
 
-                <div class="alert alert-error" v-if="isError">
+                <div class="alert alert-danger" v-if="isError">
                   {{ errorMessage }}
                 </div>
 
