@@ -7,7 +7,7 @@
         <div class="col">
           <div class="d-flex flex-row justify-content-center">
             <div class="login-form">
-              <form @submit.prevent="submit">
+              <Form @submit="submit" :validation-schema="schema">
                 <div class="avatar">
                   <img src="../assets/images/avatar.svg" />
                 </div>
@@ -24,22 +24,27 @@
                 </div>
 
                 <div class="form-group">
-                  <input
-                    type="password"
+                  <Field
+                    name="password"
                     class="form-control"
                     placeholder="Password"
-                    required="required"
                     v-model="form.password"
-                  />
-                </div>
-                <div class="form-group">
-                  <input
                     type="password"
+                  />
+                  <ErrorMessage class="field__error-message" name="password" />
+                </div>
+
+                <div class="form-group">
+                  <Field
+                    name="confirmPassword"
                     class="form-control"
                     placeholder="Confirm password"
-                    required="required"
                     v-model="form.confirmPassword"
-                    @change="isValidatePasswords()"
+                    type="password"
+                  />
+                  <ErrorMessage
+                    class="field__error-message"
+                    name="confirmPassword"
                   />
                 </div>
 
@@ -47,9 +52,8 @@
                   type="submit"
                   class="btn btn-primary btn-block btn-lg"
                   value="Sign up"
-                  :disabled="isError && isSubmited == false"
                 />
-              </form>
+              </Form>
             </div>
           </div>
         </div>
@@ -60,14 +64,30 @@
 
 <script>
 import { mapActions } from "vuex";
+import { Field, Form, ErrorMessage } from "vee-validate";
+import * as Yup from "yup";
 import ContentLoader from "@/components/ContentLoader.vue";
 
 export default {
   name: "ChangePassword",
   components: {
+    Field,
+    Form,
+    ErrorMessage,
     ContentLoader,
   },
   data() {
+    const schema = Yup.object({
+      email: Yup.string()
+        .required("Email is required")
+        .email("Email is invalid"),
+      password: Yup.string()
+        .min(6, "Password must be at least 6 characters")
+        .required("Password is required"),
+      confirmPassword: Yup.string()
+        .oneOf([Yup.ref("password"), null], "Passwords must match")
+        .required("Confirm Password is required"),
+    });
     return {
       form: {
         password: "",
@@ -78,11 +98,13 @@ export default {
       isSubmited: false,
       successMessage: ''
       isRequestProcessing: false,
+      schema,
     };
   },
 
   methods: {
     ...mapActions(["changePassword"]),
+
     async submit() {
       try {
         this.isRequestProcessing = true;
@@ -95,16 +117,6 @@ export default {
         this.errorMessage = error.response.data.message;
       }
     },
-    isValidatePasswords() {
-      if (this.form.password != this.form.confirmPassword) {
-        this.errorMessage = "The password confirmation does not match";
-        this.isError = true;
-      } else if (this.form.password.length() < 6) {
-        this.errorMessage = "Your password must be at least 6 characters long";
-        this.isError = true;
-      } else {
-        this.errorMessage = "";
-        this.isError = false;
       }
       this.isRequestProcessing = false;
     },
