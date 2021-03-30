@@ -1,5 +1,7 @@
 <template>
   <div class="register">
+    <ContentLoader v-if="isRequestProcessing == true" />
+
     <div class="container">
       <div class="row">
         <div class="col">
@@ -64,11 +66,13 @@
 <script>
 import { mapActions } from "vuex";
 import Alert from "@/components/Alert.vue";
+import ContentLoader from "@/components/ContentLoader.vue";
 
 export default {
   name: "Register",
   components: {
     Alert,
+    ContentLoader,
   },
   data() {
     return {
@@ -80,6 +84,7 @@ export default {
       isSubmited: false,
       message: "",
       isError: false,
+      isRequestProcessing: false,
     };
   },
 
@@ -87,6 +92,7 @@ export default {
     ...mapActions(["register"]),
     async submit() {
       try {
+        this.isRequestProcessing = true;
         this.isError = false;
         this.message = "";
         await this.register(this.form);
@@ -95,6 +101,7 @@ export default {
         this.message = error.response.data.message;
         this.isError = true;
       }
+      this.isRequestProcessing = false;
     },
     isValidatePasswords() {
       if (this.form.password != this.form.confirmPassword) {
