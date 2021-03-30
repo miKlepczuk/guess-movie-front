@@ -16,15 +16,8 @@
                   Enter your email address below and we'll send you a link with
                   instructions.
                 </p>
-                <div
-                  class="alert alert-success"
-                  v-if="successMessage.length > 0"
-                >
-                  {{ successMessage }}
-                </div>
-                <div class="alert alert-danger" v-if="errorMessage.length > 0">
-                  {{ errorMessage }}
-                </div>
+                <Alert :isError="isError" :message="message" />
+
                 <div class="form-group">
                   <input
                     type="email"
@@ -55,19 +48,21 @@
 <script>
 import { mapActions } from "vuex";
 import ContentLoader from "@/components/ContentLoader.vue";
+import Alert from "@/components/Alert.vue";
 
 export default {
   name: "ResetPassword",
   components: {
     ContentLoader,
+    Alert,
   },
   data() {
     return {
       form: {
         email: "",
       },
-      errorMessage: "",
-      successMessage: "",
+      message: "",
+      isError: false,
       isRequestProcessing: false,
     };
   },
@@ -75,15 +70,16 @@ export default {
   methods: {
     ...mapActions(["recoverPassword"]),
     async submit() {
-      this.errorMessage = "";
-      this.successMessage = "";
+      this.message = "";
       try {
         this.isRequestProcessing = true;
         let form = { email: this.form.email };
         await this.recoverPassword(form);
-        this.successMessage = "Recovery email has been sent";
+        this.message = "Recovery email has been sent";
+        this.isError = false;
       } catch (error) {
-        this.errorMessage = "Invalid email";
+        this.message = error.response.data.message;
+        this.isError = true;
       }
       this.isRequestProcessing = false;
     },
