@@ -12,16 +12,8 @@
                   <img src="../assets/images/avatar.svg" />
                 </div>
                 <h4 class="modal-title">Change password</h4>
-                <div
-                  class="alert alert-success"
-                  v-if="successMessage.length > 0"
-                >
-                  {{ successMessage }}
-                </div>
 
-                <div class="alert alert-danger" v-if="isError">
-                  {{ errorMessage }}
-                </div>
+                <Alert :isError="isError" :message="message" />
 
                 <div class="form-group">
                   <Field
@@ -64,6 +56,7 @@
 
 <script>
 import { mapActions } from "vuex";
+import Alert from "@/components/Alert.vue";
 import { Field, Form, ErrorMessage } from "vee-validate";
 import * as Yup from "yup";
 import ContentLoader from "@/components/ContentLoader.vue";
@@ -74,6 +67,7 @@ export default {
     Field,
     Form,
     ErrorMessage,
+    Alert,
     ContentLoader,
   },
   data() {
@@ -93,10 +87,8 @@ export default {
         password: "",
         confirmPassword: "",
       },
-      errorMessage: "",
+      message: "",
       isError: false,
-      isSubmited: false,
-      successMessage: ''
       isRequestProcessing: false,
       schema,
     };
@@ -110,13 +102,10 @@ export default {
         this.isRequestProcessing = true;
         this.isError = false;
         await this.changePassword(this.form);
-        this.successMessage='Your password has been changed'
+        this.message = "Your password has been changed";
       } catch (error) {
         this.isError = true;
-        this.isSubmited = true;
-        this.errorMessage = error.response.data.message;
-      }
-    },
+        this.message = error.response.data.message;
       }
       this.isRequestProcessing = false;
     },

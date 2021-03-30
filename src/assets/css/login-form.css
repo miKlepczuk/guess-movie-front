@@ -74,3 +74,9 @@
     color:rgb(201, 13, 13)
   }
   .alert-success{color: #4aba70}
+
+  .field__error-message {
+    display: block;
+    text-align: left;
+    color: #f23648;
+  }
