@@ -1,10 +1,11 @@
 <template>
-  <div class="wrapper">
+  <div>
     <Navbar />
 
-    <router-view />
-
-    <!-- <Footer /> -->
+    <div class="wrapper">
+      <router-view />
+      <!-- <Footer /> -->
+    </div>
   </div>
 </template>
 
@@ -30,16 +31,14 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  
 }
-
-
 body {
   color: #999;
   font-family: "Varela Round", sans-serif;
   background: linear-gradient(rgba(60, 60, 60, 0.25), rgba(60, 60, 60, 0.25)),
     url("assets/images/web-pattern.png");
 }
+.wrapper{margin-top:50px;}
 
 img {
   max-width: 100%;
