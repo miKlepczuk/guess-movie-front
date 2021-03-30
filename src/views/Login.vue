@@ -10,9 +10,9 @@
                   <img src="../assets/images/avatar.svg" />
                 </div>
                 <h4 class="modal-title">Login to Your Account</h4>
-                <div class="alert alert-danger" v-if="errorMessage.length > 0">
-                  {{ errorMessage }}
-                </div>
+
+                <Alert :isError="isError" :message="message" />
+
                 <div class="form-group">
                   <input
                     v-model="form.email"
@@ -58,15 +58,21 @@
 
 <script>
 import { mapActions } from "vuex";
+import Alert from "@/components/Alert.vue";
+
 export default {
   name: "Login",
+  components: {
+    Alert,
+  },
   data() {
     return {
       form: {
         email: "",
         password: "",
       },
-      errorMessage: "",
+      message: "",
+      isError: false,
     };
   },
 
@@ -75,10 +81,13 @@ export default {
     async submit() {
       let user = { email: this.form.email, password: this.form.password };
       try {
+        this.message = "";
+        this.isError = false;
         await this.logIn(user);
         this.$router.push({ name: "home" });
       } catch (error) {
-        this.errorMessage = "The email or password did not match";
+        this.isError = true;
+        this.message = error.response.data.message;
       }
     },
   },
