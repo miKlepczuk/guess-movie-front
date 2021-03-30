@@ -1,5 +1,7 @@
 <template>
   <div class="change-password">
+    <ContentLoader v-if="isRequestProcessing == true" />
+
     <div class="container">
       <div class="row">
         <div class="col">
@@ -58,9 +60,13 @@
 
 <script>
 import { mapActions } from "vuex";
+import ContentLoader from "@/components/ContentLoader.vue";
 
 export default {
   name: "ChangePassword",
+  components: {
+    ContentLoader,
+  },
   data() {
     return {
       form: {
@@ -71,6 +77,7 @@ export default {
       isError: false,
       isSubmited: false,
       successMessage: ''
+      isRequestProcessing: false,
     };
   },
 
@@ -78,6 +85,7 @@ export default {
     ...mapActions(["changePassword"]),
     async submit() {
       try {
+        this.isRequestProcessing = true;
         this.isError = false;
         await this.changePassword(this.form);
         this.successMessage='Your password has been changed'
@@ -98,6 +106,7 @@ export default {
         this.errorMessage = "";
         this.isError = false;
       }
+      this.isRequestProcessing = false;
     },
   },
 };
