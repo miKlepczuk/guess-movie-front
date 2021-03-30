@@ -11,9 +11,7 @@
                 </div>
                 <h4 class="modal-title">Sign up</h4>
 
-                <div class="alert alert-danger" v-if="isError">
-                  {{ errorMessage }}
-                </div>
+                <Alert :isError="isError" :message="message" />
 
                 <div class="form-group">
                   <input
@@ -65,9 +63,13 @@
 
 <script>
 import { mapActions } from "vuex";
+import Alert from "@/components/Alert.vue";
 
 export default {
   name: "Register",
+  components: {
+    Alert,
+  },
   data() {
     return {
       form: {
@@ -75,9 +77,9 @@ export default {
         password: "",
         confirmPassword: "",
       },
-      errorMessage: "",
-      isError: false,
       isSubmited: false,
+      message: "",
+      isError: false,
     };
   },
 
@@ -86,12 +88,12 @@ export default {
     async submit() {
       try {
         this.isError = false;
+        this.message = "";
         await this.register(this.form);
         this.$router.push({ name: "home" });
       } catch (error) {
+        this.message = error.response.data.message;
         this.isError = true;
-        this.isSubmited = true;
-        this.errorMessage = error.response.data.message;
       }
     },
     isValidatePasswords() {
