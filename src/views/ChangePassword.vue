@@ -10,6 +10,12 @@
                   <img src="../assets/images/avatar.svg" />
                 </div>
                 <h4 class="modal-title">Change password</h4>
+                <div
+                  class="alert alert-success"
+                  v-if="successMessage.length > 0"
+                >
+                  {{ successMessage }}
+                </div>
 
                 <div class="alert alert-danger" v-if="isError">
                   {{ errorMessage }}
@@ -64,6 +70,7 @@ export default {
       errorMessage: "",
       isError: false,
       isSubmited: false,
+      successMessage: ''
     };
   },
 
@@ -73,8 +80,7 @@ export default {
       try {
         this.isError = false;
         await this.changePassword(this.form);
-        alert("Your password has been changed");
-        this.$router.push({ name: "home" });
+        this.successMessage='Your password has been changed'
       } catch (error) {
         this.isError = true;
         this.isSubmited = true;
