@@ -7,7 +7,7 @@
         <div class="col">
           <div class="d-flex flex-row justify-content-center">
             <div class="login-form">
-              <form @submit.prevent="submit">
+              <Form @submit="submit" :validation-schema="schema">
                 <div class="avatar">
                   <img src="../assets/images/avatar.svg" />
                 </div>
@@ -17,22 +17,23 @@
                   instructions.
                 </p>
                 <Alert :isError="isError" :message="message" />
-
                 <div class="form-group">
-                  <input
-                    type="email"
+                  <Field
+                    name="email"
                     class="form-control"
                     placeholder="Email"
-                    required="required"
                     v-model="form.email"
+                    type="email"
                   />
+                  <ErrorMessage class="field__error-message" name="email" />
                 </div>
                 <input
                   type="submit"
                   class="btn btn-primary btn-block btn-lg"
                   value="Reset password"
                 />
-              </form>
+              </Form>
+
               <div class="text-center small">
                 Already have an account?
                 <router-link :to="{ name: 'login' }">Sign in</router-link>
@@ -49,14 +50,24 @@
 import { mapActions } from "vuex";
 import ContentLoader from "@/components/ContentLoader.vue";
 import Alert from "@/components/Alert.vue";
+import { Field, Form, ErrorMessage } from "vee-validate";
+import * as Yup from "yup";
 
 export default {
   name: "ResetPassword",
   components: {
     ContentLoader,
     Alert,
+    Field,
+    Form,
+    ErrorMessage,
   },
   data() {
+    const schema = Yup.object({
+      email: Yup.string()
+        .required("Email is required")
+        .email("Email is invalid"),
+    });
     return {
       form: {
         email: "",
@@ -64,6 +75,7 @@ export default {
       message: "",
       isError: false,
       isRequestProcessing: false,
+      schema,
     };
   },
 
