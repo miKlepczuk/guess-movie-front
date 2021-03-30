@@ -135,6 +135,12 @@ export default {
             await axios.patch("recover-password" + '?' + params, form)
             dispatch('logOut');
         },
+        
+        async resetPassword({ dispatch }, form) {
+            const params = new URLSearchParams(form).toString();
+            await axios.patch("reset-password" + '?' + params, form)
+            dispatch('logOut');
+        },
 
     },
 

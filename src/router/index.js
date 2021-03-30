@@ -29,7 +29,7 @@ const routes = [
   },
   {
     path: '/reset-password',
-    name: 'reset-password',
+    name: 'ResetPassword',
     component: ResetPassword
   },
   {
