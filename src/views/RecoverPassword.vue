@@ -1,5 +1,7 @@
 <template>
-  <div class="login">
+  <div class="recover-password">
+    <ContentLoader v-if="isRequestProcessing == true" />
+
     <div class="container">
       <div class="row">
         <div class="col">
@@ -9,44 +11,38 @@
                 <div class="avatar">
                   <img src="../assets/images/avatar.svg" />
                 </div>
-                <h4 class="modal-title">Login to Your Account</h4>
+                <h4 class="modal-title">Reset Your Password</h4>
+                <p>
+                  Enter your email address below and we'll send you a link with
+                  instructions.
+                </p>
+                <div
+                  class="alert alert-success"
+                  v-if="successMessage.length > 0"
+                >
+                  {{ successMessage }}
+                </div>
                 <div class="alert alert-danger" v-if="errorMessage.length > 0">
                   {{ errorMessage }}
                 </div>
                 <div class="form-group">
                   <input
-                    v-model="form.email"
                     type="email"
                     class="form-control"
                     placeholder="Email"
                     required="required"
+                    v-model="form.email"
                   />
-                </div>
-                <div class="form-group">
-                  <input
-                    v-model="form.password"
-                    type="password"
-                    class="form-control"
-                    placeholder="Password"
-                    required="required"
-                  />
-                </div>
-                <div class="form-group small clearfix">
-                  <router-link
-                    class="forgot-link"
-                    :to="{ name: 'RecoverPassword' }"
-                    >Forgot Password?</router-link
-                  >
                 </div>
                 <input
                   type="submit"
                   class="btn btn-primary btn-block btn-lg"
-                  value="Login"
+                  value="Reset password"
                 />
               </form>
               <div class="text-center small">
-                Don't have an account?
-                <router-link :to="{ name: 'register' }">Sign up</router-link>
+                Already have an account?
+                <router-link :to="{ name: 'login' }">Sign in</router-link>
               </div>
             </div>
           </div>
@@ -58,28 +54,38 @@
 
 <script>
 import { mapActions } from "vuex";
+import ContentLoader from "@/components/ContentLoader.vue";
+
 export default {
-  name: "Login",
+  name: "ResetPassword",
+  components: {
+    ContentLoader,
+  },
   data() {
     return {
       form: {
         email: "",
-        password: "",
       },
       errorMessage: "",
+      successMessage: "",
+      isRequestProcessing: false,
     };
   },
 
   methods: {
-    ...mapActions(["logIn"]),
+    ...mapActions(["recoverPassword"]),
     async submit() {
-      let user = { email: this.form.email, password: this.form.password };
+      this.errorMessage = "";
+      this.successMessage = "";
       try {
-        await this.logIn(user);
-        this.$router.push({ name: "home" });
+        this.isRequestProcessing = true;
+        let form = { email: this.form.email };
+        await this.recoverPassword(form);
+        this.successMessage = "Recovery email has been sent";
       } catch (error) {
-        this.errorMessage = "The email or password did not match";
+        this.errorMessage = "Invalid email";
       }
+      this.isRequestProcessing = false;
     },
   },
 };
