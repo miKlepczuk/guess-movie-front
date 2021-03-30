@@ -7,7 +7,7 @@
         <div class="col">
           <div class="d-flex flex-row justify-content-center">
             <div class="login-form">
-              <form @submit.prevent="submit">
+              <Form @submit="submit" :validation-schema="schema">
                 <div class="avatar">
                   <img src="../assets/images/avatar.svg" />
                 </div>
@@ -16,22 +16,25 @@
                 <Alert :isError="isError" :message="message" />
 
                 <div class="form-group">
-                  <input
-                    v-model="form.email"
-                    type="email"
+                  <Field
+                    name="email"
                     class="form-control"
                     placeholder="Email"
-                    required="required"
+                    v-model="form.email"
+                    type="email"
                   />
+                  <ErrorMessage class="field__error-message" name="email" />
                 </div>
+
                 <div class="form-group">
-                  <input
-                    v-model="form.password"
-                    type="password"
+                  <Field
+                    name="password"
                     class="form-control"
                     placeholder="Password"
-                    required="required"
+                    v-model="form.password"
+                    type="password"
                   />
+                  <ErrorMessage class="field__error-message" name="password" />
                 </div>
                 <div class="form-group small clearfix">
                   <router-link
@@ -45,7 +48,7 @@
                   class="btn btn-primary btn-block btn-lg"
                   value="Login"
                 />
-              </form>
+              </Form>
               <div class="text-center small">
                 Don't have an account?
                 <router-link :to="{ name: 'register' }">Sign up</router-link>
@@ -62,14 +65,25 @@
 import { mapActions } from "vuex";
 import Alert from "@/components/Alert.vue";
 import ContentLoader from "@/components/ContentLoader.vue";
+import { Field, Form, ErrorMessage } from "vee-validate";
+import * as Yup from "yup";
 
 export default {
   name: "Login",
   components: {
+    Field,
+    Form,
+    ErrorMessage,
     Alert,
     ContentLoader,
   },
   data() {
+    const schema = Yup.object({
+      email: Yup.string()
+        .required("Email is required")
+        .email("Email is invalid"),
+      password: Yup.string().required("Password is required"),
+    });
     return {
       form: {
         email: "",
@@ -78,6 +92,7 @@ export default {
       message: "",
       isError: false,
       isRequestProcessing: false,
+      schema,
     };
   },
 
