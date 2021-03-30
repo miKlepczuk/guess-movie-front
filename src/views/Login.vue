@@ -1,5 +1,7 @@
 <template>
   <div class="login">
+    <ContentLoader v-if="isRequestProcessing == true" />
+
     <div class="container">
       <div class="row">
         <div class="col">
@@ -59,11 +61,13 @@
 <script>
 import { mapActions } from "vuex";
 import Alert from "@/components/Alert.vue";
+import ContentLoader from "@/components/ContentLoader.vue";
 
 export default {
   name: "Login",
   components: {
     Alert,
+    ContentLoader,
   },
   data() {
     return {
@@ -73,6 +77,7 @@ export default {
       },
       message: "",
       isError: false,
+      isRequestProcessing: false,
     };
   },
 
@@ -81,6 +86,7 @@ export default {
     async submit() {
       let user = { email: this.form.email, password: this.form.password };
       try {
+        this.isRequestProcessing = true;
         this.message = "";
         this.isError = false;
         await this.logIn(user);
@@ -89,6 +95,7 @@ export default {
         this.isError = true;
         this.message = error.response.data.message;
       }
+      this.isRequestProcessing = false;
     },
   },
 };
