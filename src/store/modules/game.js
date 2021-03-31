@@ -25,11 +25,13 @@ export default {
         isAnswerCorrect(state, getters) {
             if (getters.firstFreePositionInMask < 0) {
                 let sentenceLetters = getters.currentPuzzleSentenceAsArray
-                for (var i = 0; i < state.game.mask.length; i++) {
-                    if (state.game.mask[i].letter !== sentenceLetters[i])
-                        return false;
+                if (state.game.mask.length > 0) {
+                    for (var i = 0; i < state.game.mask.length; i++) {
+                        if (state.game.mask[i].letter !== sentenceLetters[i])
+                            return false;
+                    }
+                    return true;
                 }
-                return true;
             }
             return false;
         },
