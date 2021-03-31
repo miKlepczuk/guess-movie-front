@@ -1,5 +1,5 @@
 <template>
-  <div class="register">
+  <div class="change-password">
     <ContentLoader v-if="isRequestProcessing == true" />
 
     <div class="container">
@@ -11,20 +11,9 @@
                 <div class="avatar">
                   <img src="../assets/images/avatar.svg" />
                 </div>
-                <h4 class="modal-title">Sign up</h4>
+                <h4 class="modal-title">Change password</h4>
 
                 <Alert :isError="isError" :message="message" />
-
-                <div class="form-group">
-                  <Field
-                    name="email"
-                    class="form-control"
-                    placeholder="Email"
-                    v-model="form.email"
-                    type="email"
-                  />
-                  <ErrorMessage class="field__error-message" name="email" />
-                </div>
 
                 <div class="form-group">
                   <Field
@@ -50,16 +39,13 @@
                     name="confirmPassword"
                   />
                 </div>
+
                 <input
                   type="submit"
                   class="btn btn-primary btn-block btn-lg"
                   value="Sign up"
                 />
               </Form>
-              <div class="text-center small">
-                Already have an account?
-                <router-link :to="{ name: 'login' }">Sign in</router-link>
-              </div>
             </div>
           </div>
         </div>
@@ -71,18 +57,18 @@
 <script>
 import { mapActions } from "vuex";
 import Alert from "@/components/Alert.vue";
-import ContentLoader from "@/components/ContentLoader.vue";
 import { Field, Form, ErrorMessage } from "vee-validate";
 import * as Yup from "yup";
+import ContentLoader from "@/components/ContentLoader.vue";
 
 export default {
-  name: "Register",
+  name: "ChangePassword",
   components: {
-    Alert,
-    ContentLoader,
     Field,
     Form,
     ErrorMessage,
+    Alert,
+    ContentLoader,
   },
   data() {
     const schema = Yup.object({
@@ -98,11 +84,9 @@ export default {
     });
     return {
       form: {
-        email: "",
         password: "",
         confirmPassword: "",
       },
-      isSubmited: false,
       message: "",
       isError: false,
       isRequestProcessing: false,
@@ -111,31 +95,19 @@ export default {
   },
 
   methods: {
-    ...mapActions(["register"]),
+    ...mapActions(["changePassword"]),
+
     async submit() {
       try {
         this.isRequestProcessing = true;
         this.isError = false;
-        this.message = "";
-        await this.register(this.form);
-        this.$router.push({ name: "home" });
+        await this.changePassword(this.form);
+        this.message = "Your password has been changed";
       } catch (error) {
-        this.message = error.response.data.message;
         this.isError = true;
+        this.message = error.response.data.message;
       }
       this.isRequestProcessing = false;
-    },
-    isValidatePasswords() {
-      if (this.form.password != this.form.confirmPassword) {
-        this.errorMessage = "The password confirmation does not match";
-        this.isError = true;
-      } else if (this.form.password.length() < 6) {
-        this.errorMessage = "Your password must be at least 6 characters long";
-        this.isError = true;
-      } else {
-        this.errorMessage = "";
-        this.isError = false;
-      }
     },
   },
 };

@@ -1,5 +1,5 @@
 <template>
-  <div class="register">
+  <div class="recover-password">
     <ContentLoader v-if="isRequestProcessing == true" />
 
     <div class="container">
@@ -11,10 +11,12 @@
                 <div class="avatar">
                   <img src="../assets/images/avatar.svg" />
                 </div>
-                <h4 class="modal-title">Sign up</h4>
-
+                <h4 class="modal-title">Reset Your Password</h4>
+                <p>
+                  Enter your email address below and we'll send you a link with
+                  instructions.
+                </p>
                 <Alert :isError="isError" :message="message" />
-
                 <div class="form-group">
                   <Field
                     name="email"
@@ -25,37 +27,13 @@
                   />
                   <ErrorMessage class="field__error-message" name="email" />
                 </div>
-
-                <div class="form-group">
-                  <Field
-                    name="password"
-                    class="form-control"
-                    placeholder="Password"
-                    v-model="form.password"
-                    type="password"
-                  />
-                  <ErrorMessage class="field__error-message" name="password" />
-                </div>
-
-                <div class="form-group">
-                  <Field
-                    name="confirmPassword"
-                    class="form-control"
-                    placeholder="Confirm password"
-                    v-model="form.confirmPassword"
-                    type="password"
-                  />
-                  <ErrorMessage
-                    class="field__error-message"
-                    name="confirmPassword"
-                  />
-                </div>
                 <input
                   type="submit"
                   class="btn btn-primary btn-block btn-lg"
-                  value="Sign up"
+                  value="Reset password"
                 />
               </Form>
+
               <div class="text-center small">
                 Already have an account?
                 <router-link :to="{ name: 'login' }">Sign in</router-link>
@@ -70,16 +48,16 @@
 
 <script>
 import { mapActions } from "vuex";
-import Alert from "@/components/Alert.vue";
 import ContentLoader from "@/components/ContentLoader.vue";
+import Alert from "@/components/Alert.vue";
 import { Field, Form, ErrorMessage } from "vee-validate";
 import * as Yup from "yup";
 
 export default {
-  name: "Register",
+  name: "ResetPassword",
   components: {
-    Alert,
     ContentLoader,
+    Alert,
     Field,
     Form,
     ErrorMessage,
@@ -89,20 +67,11 @@ export default {
       email: Yup.string()
         .required("Email is required")
         .email("Email is invalid"),
-      password: Yup.string()
-        .min(6, "Password must be at least 6 characters")
-        .required("Password is required"),
-      confirmPassword: Yup.string()
-        .oneOf([Yup.ref("password"), null], "Passwords must match")
-        .required("Confirm Password is required"),
     });
     return {
       form: {
         email: "",
-        password: "",
-        confirmPassword: "",
       },
-      isSubmited: false,
       message: "",
       isError: false,
       isRequestProcessing: false,
@@ -111,31 +80,20 @@ export default {
   },
 
   methods: {
-    ...mapActions(["register"]),
+    ...mapActions(["recoverPassword"]),
     async submit() {
+      this.message = "";
       try {
         this.isRequestProcessing = true;
+        let form = { email: this.form.email };
+        await this.recoverPassword(form);
+        this.message = "Recovery email has been sent";
         this.isError = false;
-        this.message = "";
-        await this.register(this.form);
-        this.$router.push({ name: "home" });
       } catch (error) {
         this.message = error.response.data.message;
         this.isError = true;
       }
       this.isRequestProcessing = false;
-    },
-    isValidatePasswords() {
-      if (this.form.password != this.form.confirmPassword) {
-        this.errorMessage = "The password confirmation does not match";
-        this.isError = true;
-      } else if (this.form.password.length() < 6) {
-        this.errorMessage = "Your password must be at least 6 characters long";
-        this.isError = true;
-      } else {
-        this.errorMessage = "";
-        this.isError = false;
-      }
     },
   },
 };

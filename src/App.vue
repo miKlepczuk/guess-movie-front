@@ -2,22 +2,22 @@
   <div>
     <Navbar />
 
-    <div id="app">
+    <div class="wrapper">
       <router-view />
+      <!-- <Footer /> -->
     </div>
-    <Footer />
   </div>
 </template>
 
 <script>
 import Navbar from "@/components/Navbar.vue";
-import Footer from "@/components/Footer.vue";
+// import Footer from "@/components/Footer.vue";
 
 export default {
   name: "App",
   components: {
     Navbar,
-    Footer,
+    // Footer,
   },
 };
 </script>
@@ -31,15 +31,14 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 100px;
-  min-height: calc(100vh - 226px);
 }
-
 body {
   color: #999;
-  background: #f5f5f5;
   font-family: "Varela Round", sans-serif;
+  background: linear-gradient(rgba(60, 60, 60, 0.25), rgba(60, 60, 60, 0.25)),
+    url("assets/images/web-pattern.png");
 }
+.wrapper{margin-top:50px;}
 
 img {
   max-width: 100%;

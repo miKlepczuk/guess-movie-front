@@ -26,6 +26,16 @@ export default {
   margin-bottom: 25px;
   background: whitesmoke;
   padding: 20px 50px 50px;
+  display: inline-block;
+}
+img{
+  height: 30vh
+}
+@media (max-width: 768px) {
+  .puzzle-picture {
+    padding: 15px;
+  }
+  img{height: 20vh;}
 }
 
 @media (max-width: 768px) {

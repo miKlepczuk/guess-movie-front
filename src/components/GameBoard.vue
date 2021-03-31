@@ -1,33 +1,31 @@
 <template>
   <div class="game-board">
-    <div class="container">
+    <div class="container game-board__container">
+     
+
       <div class="row justify-content-center">
-        <div class="col-lg-8">
+        <div class="col-12">
           <ScoreBox />
+
         </div>
-      </div>
+        <div class="col-12">
+          <PuzzlePicture />
+        </div>
 
-      <div class="row justify-content-center">
-        <template v-if="!isGameFinished">
-          <div class="col-lg-8">
-            <PuzzlePicture />
-          </div>
+        <div class="col-12">
+          <SentenceMask />
+        </div>
 
-          <div class="col-lg-8">
-            <PuzzleHint />
-          </div>
+        <div class="col-12">
+          <PuzzleScratteredLetters />
+        </div>
 
-          <div class="col-lg-8">
-            <SentenceMask />
-          </div>
-
-          <div class="col-lg-8">
-            <PuzzleScratteredLetters />
-          </div>
-        </template>
-
-        <div class="col-lg-8">
+        <div class="col-12">
           <GameSummary />
+        </div>
+
+        <div class="col-12">
+          <PuzzleHint />
         </div>
       </div>
     </div>
@@ -57,10 +55,20 @@ export default {
   created() {},
   computed: {
     ...mapGetters(["isGameFinished"]),
+    ...mapGetters(["isAnswerCorrect"]),
   },
   watch: {},
 };
 </script>
 
 <style scoped>
+.game-board__container {
+  background: #f5f5f5ce;
+  height: calc(100vh - 50px);
+  overflow: hidden;
+  margin-top: 50px;
+    display: flex;
+ flex-direction: column;
+  justify-content: center;
+}
 </style>

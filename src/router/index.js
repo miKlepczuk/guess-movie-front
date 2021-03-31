@@ -3,6 +3,8 @@ import Home from '../views/Home.vue'
 import Register from '../views/Register.vue'
 import Login from '../views/Login.vue'
 import ResetPassword from '../views/ResetPassword.vue'
+import RecoverPassword from '../views/RecoverPassword.vue'
+import ChangePassword from '../views/ChangePassword.vue'
 
 const routes = [
   {
@@ -21,9 +23,19 @@ const routes = [
     component: Login
   },
   {
+    path: '/recover-password',
+    name: 'RecoverPassword',
+    component: RecoverPassword
+  },
+  {
     path: '/reset-password',
-    name: 'reset-password',
+    name: 'ResetPassword',
     component: ResetPassword
+  },
+  {
+    path: '/change-password',
+    name: 'ChangePassword',
+    component: ChangePassword
   },
 ]
 

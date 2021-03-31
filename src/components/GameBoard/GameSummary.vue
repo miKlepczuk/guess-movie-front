@@ -9,7 +9,7 @@
 
     <div
       v-else
-      v-show="isAnswerCorrect"
+      v-show="isAnswerCorrect || isPuzzleFinished"
       class="btn btn-primary btn-lg"
       @click="goToNextSentence()"
     >
@@ -37,6 +37,7 @@ export default {
   computed: {
     ...mapGetters({ isAnswerCorrect: "isAnswerCorrect" }),
     ...mapGetters(["isGameFinished"]),
+    ...mapGetters(["isPuzzleFinished"]),
   },
   watch: {},
 };
@@ -46,7 +47,25 @@ export default {
   text-align: center;
   font-weight: bold;
   margin-bottom: 15px;
-  color: #559e58;
+  color: #05bf4e;
+}
+
+.title {
+  font-family: "Londrina Solid", cursive;
+  font-size: 2.5rem;
+}
+.subtitle {
+  font-family: "Open Sans Condensed", sans-serif;
+  font-size: 1.6rem;
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 1.8rem;
+  }
+  .subtitle {
+    font-size: 1.4rem;
+  }
 }
 
 .title {

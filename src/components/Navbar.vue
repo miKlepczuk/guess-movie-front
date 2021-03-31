@@ -1,72 +1,74 @@
 <template>
-  <div>
-    <nav
-      class="mb-4 navbar navbar-expand bg-unique fixed-top navbar-dark bg-dark"
-    >
-      <div class="container">
-        <router-link
-          :to="{ name: 'home' }"
-          class="navbar-brand d-inline-block align-middle"
-        >
-          <img
-            src="../assets/images/head.svg"
-            class="d-inline-block align-middle brand-image"
-          />
-          <span class="brand-name">Guess what</span>
-        </router-link>
+  <nav class="navbar navbar-expand bg-unique fixed-top navbar-dark bg-dark">
+    <div class="container">
+      <router-link
+        :to="{ name: 'home' }"
+        class="navbar-brand d-inline-block align-middle"
+      >
+        <img
+          src="../assets/images/head.svg"
+          class="d-inline-block align-middle brand-image"
+        />
+        <span class="brand-name">Guess what</span>
+      </router-link>
 
-        <button
-          class="navbar-toggler navbar-toggler-right"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarSupportedContent-3"
-          aria-controls="navbarSupportedContent-3"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent-3">
-          <ul class="navbar-nav ml-auto nav-flex-icons">
-            <div class="float-right" v-if="isAuthorized == false">
+      <button
+        class="navbar-toggler navbar-toggler-right"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent-3"
+        aria-controls="navbarSupportedContent-3"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent-3">
+        <ul class="navbar-nav ml-auto nav-flex-icons">
+          <div class="float-right" v-if="isAuthorized == false">
+            <router-link
+              :to="{ name: 'register' }"
+              class="btn btn-primary btn-outline-primary"
+            >
+              Sign up
+            </router-link>
+            <router-link :to="{ name: 'login' }" class="btn btn-primary">
+              Sign in
+            </router-link>
+          </div>
+
+          <li class="nav-item dropdown" v-if="isAuthorized == true">
+            <a
+              class="nav-link dropdown-toggle"
+              id="navbarDropdownMenuLink"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <img
+                src="../assets/images/user.svg"
+                class="user-avatar"
+                width="20"
+              />
+              <span class="user-email">{{ userEmail }}</span>
+            </a>
+            <div
+              class="dropdown-menu dropdown-menu-right dropdown-unique"
+              aria-labelledby="navbarDropdownMenuLink"
+            >
+              <a class="dropdown-item" @click="logout">Logout</a>
               <router-link
-                :to="{ name: 'register' }"
-                class="btn btn-primary btn-outline-primary"
+                :to="{ name: 'ChangePassword' }"
+                class="dropdown-item"
               >
-                Sign up
-              </router-link>
-              <router-link :to="{ name: 'login' }" class="btn btn-primary">
-                Sign in
+                Change password
               </router-link>
             </div>
-
-            <li class="nav-item dropdown" v-if="isAuthorized == true">
-              <a
-                class="nav-link dropdown-toggle"
-                id="navbarDropdownMenuLink"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                <img
-                  src="../assets/images/user.svg"
-                  class="user-avatar"
-                  width="20"
-                />
-                <span class="user-email">{{ userEmail }}</span>
-              </a>
-              <div
-                class="dropdown-menu dropdown-menu-right dropdown-unique"
-                aria-labelledby="navbarDropdownMenuLink"
-              >
-                <a class="dropdown-item" @click="logout">Logout</a>
-              </div>
-            </li>
-          </ul>
-        </div>
+          </li>
+        </ul>
       </div>
-    </nav>
-  </div>
+    </div>
+  </nav>
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
@@ -87,11 +89,14 @@ export default {
 };
 </script>
 <style scoped>
+.navbar {
+  height: 55px;
+}
 .brand-name {
   font-family: "Londrina Solid", cursive;
 }
 .brand-image {
-  width: 40px;
+  height: 35px;
 }
 .navbar-dark {
   background: rgb(228, 228, 228);
@@ -105,9 +110,6 @@ export default {
 @media (max-width: 768px) {
   .user-email {
     display: none;
-  }
-  .brand-image {
-    width: 30px;
   }
 }
 </style>

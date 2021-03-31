@@ -8,7 +8,7 @@ export default {
             email: '',
             puzzleId: 0,
             isAuthorized: false,
-            isGameFinished: false
+            isPuzzleFinished: false,
         },
     },
 
@@ -28,8 +28,14 @@ export default {
         userPuzzleId(state) {
             return state.user.puzzleId;
         },
-        isGameFinished(state) {
-            return state.user.isGameFinished;
+        isGameFinished(state, getters) {
+            if (getters.isThisTheLastPuzzle && state.user.isPuzzleFinished) {
+                return true
+            }
+            return false
+        },
+        isPuzzleFinished(state) {
+            return state.user.isPuzzleFinished;
         },
     },
 
@@ -40,7 +46,7 @@ export default {
             state.user.email = user.email;
             state.user.puzzleId = user.puzzleId;
             state.user.isAuthorized = true;
-            state.user.isGameFinished = user.isGameFinished;
+            state.user.isPuzzleFinished = (user.isPuzzleFinished == 1 ? true : false);
         },
         clearUserState(state) {
             state.user.score = 0;
@@ -48,7 +54,7 @@ export default {
             state.user.email = '';
             state.user.puzzleId = 0;
             state.user.isAuthorized = false;
-            state.user.isGameFinished = false;
+            state.user.isPuzzleFinished = true;
         },
 
         changeUserScore(state, newScore) {
@@ -58,8 +64,9 @@ export default {
         incrementUserPuzzleId(state) {
             state.user.puzzleId = state.user.puzzleId + 1
         },
-        finishGame(state) {
-            state.user.isGameFinished = true
+
+        changeIsPuzzleFinished(state, newState) {
+            state.user.isPuzzleFinished = newState
         }
     },
     actions: {
@@ -78,7 +85,7 @@ export default {
 
         async changeUserScore({ commit, getters }, newScore) {
             commit('changeUserScore', newScore);
-            let form = { score: getters.userScore };
+            let form = { score: getters.userScore, isPuzzleFinished: getters.isPuzzleFinished };
             const params = new URLSearchParams(form).toString();
             await axios.patch("users/" + getters.userId + '?' + params, form,
                 {
@@ -89,7 +96,7 @@ export default {
         },
 
         async incrementPuzzleApi({ getters }) {
-            let form = { puzzleId: getters.userPuzzleId };
+            let form = { puzzleId: getters.userPuzzleId, isPuzzleFinished: getters.isPuzzleFinished };
             const params = new URLSearchParams(form).toString();
             await axios.patch("users/" + getters.userId + '?' + params, form, {
                 headers: {
@@ -100,13 +107,20 @@ export default {
 
         logOut({ commit }) {
             localStorage.removeItem("token");
+            commit('clearGameState');
             commit('clearUserState');
             commit('clearPuzzlesState');
         },
 
-        async finishGame({ commit, getters }) {
-            commit('finishGame');
-            let form = { isGameFinished: true };
+        finishPuzzle({ commit }) {
+            commit('changeIsPuzzleFinished', true);
+        },
+
+        startPuzzle({ commit }) {
+            commit('changeIsPuzzleFinished', false);
+        },
+
+        async changePassword({ getters }, form) {
             const params = new URLSearchParams(form).toString();
             await axios.patch("users/" + getters.userId + '?' + params, form,
                 {
@@ -115,6 +129,19 @@ export default {
                     }
                 })
         },
+
+        async recoverPassword({ dispatch }, form) {
+            const params = new URLSearchParams(form).toString();
+            await axios.patch("recover-password" + '?' + params, form)
+            dispatch('logOut');
+        },
+        
+        async resetPassword({ dispatch }, form) {
+            const params = new URLSearchParams(form).toString();
+            await axios.patch("reset-password" + '?' + params, form)
+            dispatch('logOut');
+        },
+
     },
 
 }
