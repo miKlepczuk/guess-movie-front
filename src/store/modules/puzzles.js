@@ -61,18 +61,16 @@ export default {
     },
     actions: {
         async getPuzzles({ commit, dispatch }) {
-            try {
-                let response = await axios.get("puzzles", {
-                    headers: {
-                        Authorization: "Bearer " + localStorage.getItem("token"),
-                    },
-                })
-                commit('setPuzzles', response.data)
-                dispatch('setScratteredLetters');
-                dispatch('setMask');
-            } catch (error) {
-                console.error("Sorry you can't get puzzles now!");
-            }
+
+            let response = await axios.get("puzzles", {
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem("token"),
+                },
+            })
+            commit('setPuzzles', response.data)
+            dispatch('setScratteredLetters');
+            dispatch('setMask');
+
         },
 
         incrementCurrentPuzzle({ commit, dispatch, getters }) {

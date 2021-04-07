@@ -27,7 +27,15 @@ export default {
   created() {
     this.showPresentation = !this.isAuthorized;
     if (this.isAuthorized == true) {
-      this.getPuzzles();
+      try {
+        this.getPuzzles();
+      } catch (error) {
+        console.error("Sorry you can't get puzzles now!");
+        if (401 === error.response.status) {
+          this.logOut();
+          this.$router.push({ name: "login" });
+        }
+      }
     }
   },
   computed: {
@@ -37,6 +45,7 @@ export default {
 
   methods: {
     ...mapActions(["getPuzzles"]),
+    ...mapActions(["logOut"]),
   },
 };
 </script>
