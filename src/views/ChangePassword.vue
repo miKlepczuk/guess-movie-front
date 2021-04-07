@@ -43,7 +43,7 @@
                 <input
                   type="submit"
                   class="btn btn-primary btn-block btn-lg"
-                  value="Sign up"
+                  value="Save"
                 />
               </Form>
             </div>
