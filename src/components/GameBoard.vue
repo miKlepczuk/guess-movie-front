@@ -1,12 +1,12 @@
 <template>
   <div class="game-board">
-    <div class="container game-board__container">
-     
-
+    <div class="container">
       <div class="row justify-content-center">
         <div class="col-12">
           <ScoreBox />
-
+        </div>
+        <div class="col-12">
+          <PuzzleIndicator />
         </div>
         <div class="col-12">
           <PuzzlePicture />
@@ -39,6 +39,8 @@ import PuzzleScratteredLetters from "@/components/GameBoard/ScratteredLetters.vu
 import SentenceMask from "@/components/GameBoard/SentenceMask.vue";
 import GameSummary from "@/components/GameBoard/GameSummary.vue";
 import PuzzleHint from "@/components/GameBoard/PuzzleHint.vue";
+import PuzzleIndicator from "@/components/GameBoard/PuzzleIndicator.vue";
+
 import { mapGetters } from "vuex";
 
 export default {
@@ -50,6 +52,7 @@ export default {
     SentenceMask,
     GameSummary,
     PuzzleHint,
+    PuzzleIndicator,
   },
   methods: {},
   created() {},
@@ -62,13 +65,4 @@ export default {
 </script>
 
 <style scoped>
-.game-board__container {
-  background: #f5f5f5ce;
-  height: calc(100vh - 50px);
-  overflow: hidden;
-  margin-top: 50px;
-    display: flex;
- flex-direction: column;
-  justify-content: center;
-}
 </style>

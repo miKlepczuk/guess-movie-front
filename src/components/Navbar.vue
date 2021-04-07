@@ -111,5 +111,8 @@ export default {
   .user-email {
     display: none;
   }
+  .navbar-brand {
+    margin-right: 5px;
+  }
 }
 </style>

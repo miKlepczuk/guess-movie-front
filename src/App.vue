@@ -34,11 +34,11 @@ export default {
 }
 body {
   color: #999;
-  font-family: "Varela Round", sans-serif;
-  background: linear-gradient(rgba(60, 60, 60, 0.25), rgba(60, 60, 60, 0.25)),
-    url("assets/images/web-pattern.png");
 }
-.wrapper{margin-top:50px;}
+.wrapper {
+  margin-top: 50px;
+  padding: 50px 0;
+}
 
 img {
   max-width: 100%;
@@ -80,5 +80,11 @@ a:focus {
 .btn-outline-primary:hover,
 .btn-outline-primary:focus {
   background: transparent !important;
+}
+
+@media (max-width: 768px) {
+  .wrapper {
+    padding: 20px 0;
+  }
 }
 </style>

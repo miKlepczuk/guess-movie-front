@@ -3,7 +3,7 @@
     <div
       class="score rounded-sm d-flex align-items-center justify-content-center"
     >
-      <img class="score__image" src="../../assets/images/score.svg" width="30" />
+      <img class="score__image" src="../../assets/images/score.svg" />
       <span class="score__points">{{ userScore }}</span>
     </div>
   </div>
@@ -25,23 +25,29 @@ export default {
 
 <style scoped>
 .score-box {
-  margin: 10px 0;
+  line-height: 1;
 }
 .score {
   display: inline-block;
-  padding: 5px 9px;
 }
 .score__image {
   display: inline-block;
+  height: 1.6rem;
 }
 .score__points {
-  font-size: 2rem;
+  font-size: 1.6rem;
   color: rgb(56, 56, 56);
   padding-left: 5px;
 }
 @media (max-width: 768px) {
-  .score__points{
-  font-size: 1.5rem;
+  .score__points {
+    font-size: 1.3rem;
+  }
+  .score__image {
+    height: 1.3rem;
+  }
+  .score-box {
+    margin-bottom: 0;
   }
 }
 </style>

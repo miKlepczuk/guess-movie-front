@@ -192,7 +192,11 @@ export default {
 }
 
 @media (max-width: 768px) {
-  .hint__icon {
+  .hint {
+    margin-top: 10px;
+  }
+  .hint__icon,
+  .hint__icon:hover {
     height: 35px;
   }
   .hint--disabled .hint__icon {

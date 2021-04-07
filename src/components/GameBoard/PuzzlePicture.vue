@@ -1,17 +1,14 @@
 <template>
-  <div class="puzzle-picture border">
-    <PuzzleIndicator />
+  <div class="puzzle-picture">
     <img :src="currentPuzzleImage" class="img-fluid" />
   </div>
 </template>
 
 <script>
-import PuzzleIndicator from "@/components/GameBoard/PuzzleIndicator.vue";
 import { mapGetters } from "vuex";
 
 export default {
   name: "PuzzlePicture",
-  components: { PuzzleIndicator },
   data() {},
 
   computed: {
@@ -20,27 +17,21 @@ export default {
 };
 </script>
 
-
 <style scoped>
 .puzzle-picture {
-  margin-bottom: 25px;
-  background: whitesmoke;
-  padding: 20px 50px 50px;
+  margin-bottom: 60px;
   display: inline-block;
 }
-img{
-  height: 30vh
-}
-@media (max-width: 768px) {
-  .puzzle-picture {
-    padding: 15px;
-  }
-  img{height: 20vh;}
+img {
+  height: 20vh;
 }
 
 @media (max-width: 768px) {
+  img {
+    height: 15vh;
+  }
   .puzzle-picture {
-    padding: 15px;
+    margin-bottom: 50px;
   }
 }
 </style>

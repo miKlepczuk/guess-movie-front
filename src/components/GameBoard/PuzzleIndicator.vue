@@ -22,19 +22,20 @@ export default {
 </script>
 <style scoped>
 .puzzle-indicator {
-  font-size: 2rem;
-
+  font-size: 1.6rem;
+  line-height: 1;
+  margin-bottom: 50px;
 }
 
 .separator {
-  font-size: 1.8rem;
   font-weight: 300;
 }
 
 @media (max-width: 768px) {
-  .puzzle-indicator,
-  .separator {
-    font-size: 1.7rem;
+  .puzzle-indicator {
+    font-size: 1.3rem;
+    margin-bottom: 30px;
+    margin-top: -1.3rem;
   }
 }
 </style>

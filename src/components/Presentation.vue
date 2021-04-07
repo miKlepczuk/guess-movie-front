@@ -8,7 +8,7 @@
       </div>
       <div class="row justify-content-center">
         <div class="col-lg-6">
-          <p>
+          <p class="description">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis
             blandit libero, non egestas risus. Nam interdum mattis augue, non
             sodales nisl.
@@ -52,8 +52,11 @@ export default {
   margin-bottom: 30px;
 }
 
-.btn-play {
-  margin-bottom: 15px;
+.description {
+  margin-bottom: 30px;
+}
+img {
+  margin-bottom: 30px;
 }
 
 @media (max-width: 768px) {

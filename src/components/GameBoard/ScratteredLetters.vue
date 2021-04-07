@@ -46,6 +46,8 @@ export default {
 
 <style scoped>
 .puzzle-scrattered-letters {
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
   min-height: 45px;
 }
 .letters,
@@ -56,28 +58,25 @@ export default {
   flex-wrap: wrap;
 }
 .letters__single-letter {
-  border: 1px solid rgb(54, 54, 54);
   width: 40px;
   height: 40px;
   margin: 5px 5px;
-  font-size: 30px;
+  font-size: 35px;
   display: inline-block;
   line-height: 40px;
   text-transform: capitalize;
 }
 .letters__single-letter:hover {
   cursor: pointer;
-  border: 1px solid rgb(0, 0, 0);
   color: rgb(0, 0, 0);
   font-size: 32px;
 }
 
 @media (max-width: 768px) {
   .letters__single-letter {
-    border-color: transparent;
     width: 30px;
     height: 30px;
-    font-size: 28px;
+    font-size: 30px;
     margin: 0 5px 5px 5px;
   }
 }

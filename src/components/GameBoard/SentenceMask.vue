@@ -72,6 +72,8 @@ export default {
 
 <style scoped>
 .sentence-mask {
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
   font-size: 50px;
   letter-spacing: 0;
   margin-bottom: 50px;
@@ -88,7 +90,7 @@ export default {
   height: 35px;
   margin: 0 3px;
   text-align: center;
-  border-bottom: 2px solid gray;
+  border-bottom: 1px solid gray;
   letter-spacing: 0;
   text-transform: capitalize;
 }
@@ -102,11 +104,22 @@ export default {
 
 @media (max-width: 768px) {
   .sentence-mask__single-sign {
-    font-size: 25px;
-    line-height: 25px;
-    width: 25px;
-    height: 25px;
+    font-size: 30px;
+    line-height: 30px;
+    width: 30px;
+    height: 30px;
     margin: 0 2px;
+  }
+}
+@media (max-width: 360px) {
+  .sentence-mask__single-sign {
+    width: 25px;
+  }
+}
+@media (max-width: 998px) {
+  .sign-space {
+    width: 100%;
+    height: 15px;
   }
 }
 </style>
