@@ -56,13 +56,17 @@
               class="dropdown-menu dropdown-menu-right dropdown-unique"
               aria-labelledby="navbarDropdownMenuLink"
             >
-              <a class="dropdown-item" @click="logout">Logout</a>
+              <router-link :to="{ name: 'HowToPlay' }" class="dropdown-item">
+                How to play
+              </router-link>
               <router-link
                 :to="{ name: 'ChangePassword' }"
                 class="dropdown-item"
               >
                 Change password
               </router-link>
+
+              <a class="dropdown-item" @click="logout">Logout</a>
             </div>
           </li>
         </ul>

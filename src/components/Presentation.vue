@@ -9,9 +9,8 @@
       <div class="row justify-content-center">
         <div class="col-lg-6">
           <p class="description">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis
-            blandit libero, non egestas risus. Nam interdum mattis augue, non
-            sodales nisl.
+            As the name suggests, Guess Movie is a film name guessing game based
+            on video frame and a board with letters in random order to fill placeholders.
           </p>
         </div>
       </div>
@@ -49,14 +48,16 @@ export default {
 .title {
   font-family: "Londrina Solid", cursive;
   font-size: 50px;
-  margin-bottom: 30px;
+  margin-bottom: 50px;
 }
 
 .description {
-  margin-bottom: 30px;
+  margin-bottom: 50px;
 }
 img {
-  margin-bottom: 30px;
+  margin-bottom: 60px;
+  width: 600px;
+  max-width: 100%;
 }
 
 @media (max-width: 768px) {
