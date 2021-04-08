@@ -1,7 +1,7 @@
-# Guess what
+# Guess movie
 
 ## Live application
-[www.guess-what.pl](http://guess-what.pl)
+
 
 ## Project setup
 ```

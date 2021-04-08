@@ -9,7 +9,7 @@
           src="../assets/images/head.svg"
           class="d-inline-block align-middle brand-image"
         />
-        <span class="brand-name">Guess what</span>
+        <span class="brand-name">Guess movie</span>
       </router-link>
 
       <button

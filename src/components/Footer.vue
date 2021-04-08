@@ -1,7 +1,7 @@
 <template>
   <footer class="border-top  py-4 bg-light">
     <div class="container text-center">
-      <small> Copyright &copy; Guess what</small>
+      <small> Copyright &copy; Guess movie</small>
     </div>
   </footer>
 </template>
