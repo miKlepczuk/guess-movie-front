@@ -1,5 +1,5 @@
 <template>
-  <div
+  <div title="Give a hint letter"
     class="hint d-flex justify-content-end"
     :class="isHintAllowed() == false ? 'hint--disabled' : ''"
   >
