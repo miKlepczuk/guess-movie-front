@@ -1,5 +1,5 @@
 <template>
-  <div classs="summary">
+  <div class="summary">
     <template v-if="isGameFinished">
       <div class="end-game-information">
         <h1 class="title">Congratulations!</h1>
@@ -10,7 +10,7 @@
     <div
       v-else
       v-show="isAnswerCorrect || isPuzzleFinished"
-      class="btn btn-primary btn-lg"
+      class="btn btn-primary btn-lg btn--next"
       @click="goToNextSentence()"
     >
       Next
@@ -81,6 +81,9 @@ export default {
   }
   .subtitle {
     font-size: 1.4rem;
+  }
+  .summary{
+    margin-top: -30px;
   }
 }
 </style>

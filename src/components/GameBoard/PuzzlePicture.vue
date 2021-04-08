@@ -19,19 +19,29 @@ export default {
 
 <style scoped>
 .puzzle-picture {
-  margin-bottom: 60px;
+  margin-bottom: 45px;
   display: inline-block;
 }
 img {
-  height: 20vh;
+  height: 30vh;
+  min-height: 200px;
+  border: 1px solid gray;
 }
 
 @media (max-width: 768px) {
   img {
-    height: 15vh;
+    height: 25vh;
   }
   .puzzle-picture {
-    margin-bottom: 50px;
+    margin-bottom: 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  img {
+    height: auto;
+    min-height: auto;
+    width: 100%;
   }
 }
 </style>

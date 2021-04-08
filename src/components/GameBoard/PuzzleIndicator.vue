@@ -24,7 +24,7 @@ export default {
 .puzzle-indicator {
   font-size: 1.6rem;
   line-height: 1;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 }
 
 .separator {
@@ -34,7 +34,7 @@ export default {
 @media (max-width: 768px) {
   .puzzle-indicator {
     font-size: 1.3rem;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
     margin-top: -1.3rem;
   }
 }

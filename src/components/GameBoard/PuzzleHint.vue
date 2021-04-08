@@ -1,5 +1,6 @@
 <template>
-  <div title="Give a hint letter"
+  <div
+    title="Give a hint letter"
     class="hint d-flex justify-content-end"
     :class="isHintAllowed() == false ? 'hint--disabled' : ''"
   >
@@ -83,17 +84,15 @@ export default {
 
     removeWrongItemsInMaskIfExists(position) {
       // checking correctness randomized position
-      let wrongItemOnRandomizedPosition = this.getWrongItemInMaskByPosition(
-        position
-      );
+      let wrongItemOnRandomizedPosition =
+        this.getWrongItemInMaskByPosition(position);
       if (wrongItemOnRandomizedPosition)
         this.removeItemFromMask(wrongItemOnRandomizedPosition);
 
       // looking for mistake in previous user assignment for letter on randomized position
       let correctLetter = this.sentenceSplitted[position];
-      let wrongChoosenItemInMask = this.getFirstWrongChoosenItemInMaskByLetter(
-        correctLetter
-      );
+      let wrongChoosenItemInMask =
+        this.getFirstWrongChoosenItemInMaskByLetter(correctLetter);
       if (wrongChoosenItemInMask)
         this.removeItemFromMask(wrongChoosenItemInMask);
     },
@@ -193,7 +192,10 @@ export default {
 
 @media (max-width: 768px) {
   .hint {
-    margin-top: 10px;
+    margin-top: 0;
+    position: fixed;
+    bottom: 0;
+    right: 5px;
   }
   .hint__icon,
   .hint__icon:hover {
