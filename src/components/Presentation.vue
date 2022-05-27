@@ -10,7 +10,8 @@
         <div class="col-lg-6">
           <p class="description">
             As the name suggests, Guess Movie is a film name guessing game based
-            on video frame and a board with letters in random order to fill placeholders.
+            on video frame and a board with letters in random order to fill
+            placeholders.
           </p>
         </div>
       </div>
@@ -22,10 +23,10 @@
       <div class="row justify-content-center">
         <div class="col-lg-8">
           <router-link
-            :to="{ name: 'login' }"
+            :to="{ name: btnLink }"
             class="btn btn-primary btn-lg btn-play"
           >
-            Let's play the game!
+            {{ btnText }}
           </router-link>
         </div>
       </div>
@@ -34,13 +35,28 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "Presentation",
 
   methods: {},
-  created() {},
-  computed: {},
+  created() {
+    if (this.isAuthorized == true) {
+      this.btnLink = "home";
+      this.btnText = "Continue game";
+    }
+  },
+  computed: {
+    ...mapGetters(["isAuthorized"]),
+  },
   watch: {},
+  data() {
+    return {
+      btnLink: "login",
+      btnText: "Let's play the game!",
+    };
+  },
 };
 </script>
 
