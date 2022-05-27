@@ -6,6 +6,7 @@ import HowToPlay from '../views/HowToPlay.vue'
 import ResetPassword from '../views/ResetPassword.vue'
 import RecoverPassword from '../views/RecoverPassword.vue'
 import ChangePassword from '../views/ChangePassword.vue'
+import NotFound from '../views/NotFound.vue'
 
 const routes = [
   {
@@ -43,12 +44,16 @@ const routes = [
     name: 'ChangePassword',
     component: ChangePassword
   },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: NotFound
+  },
 ]
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
-
 })
 
 export default router
