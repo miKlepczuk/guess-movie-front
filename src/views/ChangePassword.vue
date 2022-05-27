@@ -60,6 +60,7 @@ import Alert from "@/components/Alert.vue";
 import { Field, Form, ErrorMessage } from "vee-validate";
 import * as Yup from "yup";
 import ContentLoader from "@/components/ContentLoader.vue";
+import { mapGetters } from "vuex";
 
 export default {
   name: "ChangePassword",
@@ -109,6 +110,14 @@ export default {
       }
       this.isRequestProcessing = false;
     },
+  },
+    computed: {
+    ...mapGetters(["isAuthorized"]),
+  },
+   created() {
+    if (this.isAuthorized == false) {
+          this.$router.push({ name: "login" });
+    }
   },
 };
 </script>
